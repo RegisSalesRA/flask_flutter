@@ -7,7 +7,7 @@ import '../../../../domain/usecases/advice_usercases.dart';
 part 'advicer_state.dart';
 
 class AdvicerCubit extends Cubit<AdvicerCubitState> {
-  final AdviceUserCases adviceUseCases;
+  final AdviceUseCases adviceUseCases;
   AdvicerCubit({required this.adviceUseCases}) : super(AdvicerInitial());
 
   void adviceRequested() async {
