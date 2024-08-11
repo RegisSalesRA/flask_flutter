@@ -7,8 +7,6 @@ import 'package:get_it/get_it.dart';
 
 import 'data/datasource/advice_remote_datasource.dart';
 
-
-
 final sl = GetIt.I; // sl == Service Locator
 
 Future<void> init() async {
