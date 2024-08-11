@@ -1,0 +1,15 @@
+import 'package:client/data/datasource/advice_remote_datasource.dart';
+import 'package:client/domain/entities/advice_entity.dart';
+import 'package:client/domain/failures/failures.dart';
+import 'package:client/domain/repositories/advice_repository.dart';
+import 'package:dartz/dartz.dart';
+
+class AdviceRepoImpl implements AdviceRepo {
+  final AdviceRemoteDatasource adviceRemoteDatasource =
+      AdviceRemoteDatasourceImpl();
+  @override
+  Future<Either<Failure, AdviceEntity>> getAdviceFromDatasource() async {
+    final result = await adviceRemoteDatasource.getRandomAdviceFromApi();
+    return right(result);
+  }
+}
