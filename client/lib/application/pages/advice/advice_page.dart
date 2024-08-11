@@ -44,22 +44,26 @@ class AdvicePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: Column(
           children: [
-            BlocBuilder<AdvicerCubit, AdvicerCubitState>(
-              builder: (context, state) {
-                if (state is AdvicerInitial) {
-                  return const Text("Your Advice is waiting for you!");
-                } else if (state is AdvicerStateLoading) {
-                  return CircularProgressIndicator(
-                    color: themeData.colorScheme.secondary,
-                  );
-                } else if (state is AdvicerStateLoaded) {
-                  return AdviceField(advice: state.advice);
-                } else if (state is AdvicerStateError) {
-                  return const ErrorMessage(
-                      message: 'uuupsss something gone wrong!');
-                }
-                return const SizedBox();
-              },
+            Expanded(
+              child: Center(
+                child: BlocBuilder<AdvicerCubit, AdvicerCubitState>(
+                  builder: (context, state) {
+                    if (state is AdvicerInitial) {
+                      return const Text("Your Advice is waiting for you!");
+                    } else if (state is AdvicerStateLoading) {
+                      return CircularProgressIndicator(
+                        color: themeData.colorScheme.secondary,
+                      );
+                    } else if (state is AdvicerStateLoaded) {
+                      return AdviceField(advice: state.advice);
+                    } else if (state is AdvicerStateError) {
+                      return const ErrorMessage(
+                          message: 'uuupsss something gone wrong!');
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ),
             ),
             const SizedBox(height: 200, child: Center(child: CustomButton()))
           ],

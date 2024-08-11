@@ -1,11 +1,9 @@
 import 'dart:convert';
+import 'package:client/data/exceptions/exceptions.dart';
 import 'package:client/data/models/advice_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AdviceRemoteDatasource {
-  /// requests a random advice from api
-  /// returns [AdviceModel] if successfull
-  /// throws a server-Exception if status code is not 200
   Future<AdviceModel> getRandomAdviceFromApi();
 }
 
@@ -20,7 +18,11 @@ class AdviceRemoteDatasourceImpl implements AdviceRemoteDatasource {
         'accept': 'application/json ',
       },
     );
-    final responseBody = json.decode(response.body);
-    return AdviceModel.fromJson(responseBody);
+    if (response.statusCode != 200) {
+      throw ServerException();
+    } else {
+      final responseBody = json.decode(response.body);
+      return AdviceModel.fromJson(responseBody);
+    }
   }
 }

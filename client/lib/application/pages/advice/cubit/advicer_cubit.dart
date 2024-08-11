@@ -6,17 +6,16 @@ import '../../../../domain/usecases/advice_usercases.dart';
 
 part 'advicer_state.dart';
 
-
-
 class AdvicerCubit extends Cubit<AdvicerCubitState> {
-  AdvicerCubit() : super(AdvicerInitial());
-  final AdviceUserCases adviceUseCases = AdviceUserCases();
+  final AdviceUserCases adviceUseCases;
+  AdvicerCubit({required this.adviceUseCases}) : super(AdvicerInitial());
 
   void adviceRequested() async {
     emit(AdvicerStateLoading());
     final failureOrAdvice = await adviceUseCases.getAdvice();
     failureOrAdvice.fold(
-        (failure) => emit(AdvicerStateError(message: _mapFailureToMessage(failure))),
+        (failure) =>
+            emit(AdvicerStateError(message: _mapFailureToMessage(failure))),
         (advice) => emit(AdvicerStateLoaded(advice: advice.advice)));
   }
 
