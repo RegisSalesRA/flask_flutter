@@ -70,6 +70,10 @@ def create_contact():
     if not first_name or not last_name or not email or not group_id:
         return jsonify({"message": "First name, last name, email, and group ID are required"}), 400
 
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"message": "Invalid group ID"}), 400
+
     new_contact = Contact(first_name=first_name, last_name=last_name, email=email, group_id=group_id)
 
     try:
