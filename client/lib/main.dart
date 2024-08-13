@@ -1,9 +1,10 @@
-import 'package:client/application/core/services/theme_service.dart';
-import 'package:client/application/pages/advice/advice_page.dart';
+import 'package:client/application/pages/users/users_page.dart';
 import 'package:client/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'injection.dart' as di;
+
+import 'application/core/services/theme_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         themeMode: themeService.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        home: const AdvicerPageWrapperProvider(),
+        home: const UserPageProvider(),
       );
     });
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AdviceField extends StatelessWidget {
-  final String advice;
-  const AdviceField({super.key, required this.advice});
+class UserField extends StatelessWidget {
+  final String userList;
+  const UserField({super.key, required this.userList});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class AdviceField extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Text(
-              '''" $advice "''',
+              '''" $userList "''',
               style: themeData.textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
