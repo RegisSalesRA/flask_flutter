@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../domain/entities/user_entity.dart';
+import '../../../injection.dart';
+import '../users/bloc/users_bloc_bloc.dart';
 
 class CreateUserOrGroupPage extends StatefulWidget {
   const CreateUserOrGroupPage({super.key});
@@ -8,61 +12,64 @@ class CreateUserOrGroupPage extends StatefulWidget {
 }
 
 class _CreateUserOrGroupPageState extends State<CreateUserOrGroupPage> {
-  String _selectedForm = 'User'; // Opção padrão
+  String _selectedForm = 'User';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Create User or Group"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: const Text(
-                "Choose what to create:",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return BlocProvider(
+      create: (context) => sl<UsersBlocBloc>(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Create User or Group"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: const Text(
+                  "Choose what to create:",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: RadioListTile<String>(
-                    title: const Text("User"),
-                    value: 'User',
-                    groupValue: _selectedForm,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedForm = value!;
-                      });
-                    },
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: RadioListTile<String>(
+                      title: const Text("User"),
+                      value: 'User',
+                      groupValue: _selectedForm,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedForm = value!;
+                        });
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: RadioListTile<String>(
-                    title: const Text("Group"),
-                    value: 'Group',
-                    groupValue: _selectedForm,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedForm = value!;
-                      });
-                    },
+                  Expanded(
+                    child: RadioListTile<String>(
+                      title: const Text("Group"),
+                      value: 'Group',
+                      groupValue: _selectedForm,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedForm = value!;
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: _selectedForm == 'User'
-                  ? const CreateUserForm()
-                  : const CreateGroupForm(),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 24),
+              Expanded(
+                child: _selectedForm == 'User'
+                    ? const CreateUserForm()
+                    : const CreateGroupForm(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -152,18 +159,16 @@ class _CreateUserFormState extends State<CreateUserForm> {
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                final firstName = _firstNameController.text;
-                final lastName = _lastNameController.text;
-                final email = _emailController.text;
-                final group = _selectedGroup;
-
-                print("First Name: $firstName");
-                print("Last Name: $lastName");
-                print("Email: $email");
-                print("Group: $group");
-                Navigator.pop(context);
-              }
+              final userEntity = UserEntity(
+                id: 0,
+                firstName: _firstNameController.text,
+                lastName: _lastNameController.text,
+                email: _emailController.text,
+                group: {},
+              );
+              context.read<UsersBlocBloc>().add(
+                    UserPostRequestedEvent(user: userEntity),
+                  );
             },
             style: ElevatedButton.styleFrom(),
             child: const Text("Save User"),
@@ -205,7 +210,7 @@ class _CreateGroupFormState extends State<CreateGroupForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                // Lógica para salvar o grupo
+                
                 final groupName = _groupNameController.text;
 
                 print("Group Name: $groupName");

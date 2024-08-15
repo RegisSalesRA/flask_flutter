@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDatasource {
   Future<List<UserModel>> getRandomUserFromApi();
-  Future<void> postUserFromApi();
+  Future<void> postUserFromApi(dynamic userModel);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -23,13 +23,25 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       throw Exception();
     } else {
       final List<dynamic> responseBody = json.decode(response.body)['contacts'];
-      print("aqui");
       return responseBody.map((json) => UserModel.fromJson(json)).toList();
     }
   }
 
   @override
-  Future<void> postUserFromApi() async {
-    
+  Future<void> postUserFromApi(dynamic userModel) async {
+    print("POST CHAMANDO FINALMENTE!!");
+    /**
+     final response = await client.post(
+      Uri.parse('http://10.0.2.2:5000/contacts'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(userModel.toJson()), // Converte o UserModel para JSON
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception("Falha ao criar o usuário. Código de status: ${response.statusCode}");
+    } 
+     */
   }
 }

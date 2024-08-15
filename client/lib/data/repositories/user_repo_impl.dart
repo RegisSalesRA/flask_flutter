@@ -10,8 +10,6 @@ class UserRepoImpl implements UserRepo {
   Future<List<UserEntity>> getUserFromDatasource() async {
     try {
       final result = await userRemoteDatasource.getRandomUserFromApi();
-      print(result);
-
       return result;
     } catch (e) {
       print(e);
@@ -20,5 +18,8 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<void> postUserDatasource() async {}
+  Future<void> postUserDatasource() async {
+    print("Chamando api dentro de repo implement");
+    await userRemoteDatasource.postUserFromApi({});
+  }
 }

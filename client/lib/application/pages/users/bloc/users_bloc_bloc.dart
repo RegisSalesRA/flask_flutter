@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:client/domain/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../data/models/user_model.dart';
 import '../../../../domain/usecases/user_usercases.dart';
 
 part 'users_bloc_event.dart';
@@ -26,6 +27,15 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
       emit(UserStateLoading());
 
       try {
+        // Converte o UserEntity para UserModel antes de enviar
+        final userModel = UserModel(
+          id: event.user.id,
+          firstName: event.user.firstName,
+          lastName: event.user.lastName,
+          email: event.user.email,
+          group: event.user.group,
+        );
+
         await userUseCases!.postusers();
         emit(UserPostStateSuccess(user: event.user));
       } catch (e) {
