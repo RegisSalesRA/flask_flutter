@@ -21,9 +21,11 @@ class _CreateUserOrGroupPageState extends State<CreateUserOrGroupPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Choose what to create:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            Center(
+              child: const Text(
+                "Choose what to create:",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 16),
             Row(

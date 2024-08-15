@@ -110,6 +110,17 @@ class AppTheme {
     elevatedButtonTheme:
         ElevatedButtonThemeData(style: _lightElevatedButtonStyle),
     radioTheme: _lightRadioTheme,
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(color: _lightTextColorPrimary),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _appbarColorLight),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _lightOnPrimaryColor),
+      ),
+      fillColor: _lightPrimaryColor,
+      filled: true,
+    ),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -127,6 +138,17 @@ class AppTheme {
     textTheme: _darkTextTheme,
     elevatedButtonTheme:
         ElevatedButtonThemeData(style: _darkElevatedButtonStyle),
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(color: _darkTextColorPrimary),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _appbarColorDark),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: _darkOnPrimaryColor),
+      ),
+      fillColor: _darkPrimaryColor,
+      filled: true,
+    ),
     radioTheme: _darkRadioTheme,
   );
 }
