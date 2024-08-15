@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:client/domain/entities/user_entity.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../domain/usecases/user_usercases.dart';
 
@@ -18,6 +19,17 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
         emit(UserStateLoaded(user: getUsers));
       } catch (e) {
         emit(UserStateError(message: 'Failed to load users: $e'));
+      }
+    });
+
+    on<UserPostRequestedEvent>((event, emit) async {
+      emit(UserStateLoading());
+
+      try {
+        await userUseCases!.postusers();
+        emit(UserPostStateSuccess(user: event.user));
+      } catch (e) {
+        emit(UserPostStateError(message: 'Failed to post user: $e'));
       }
     });
   }

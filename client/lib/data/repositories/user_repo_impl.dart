@@ -18,4 +18,7 @@ class UserRepoImpl implements UserRepo {
       throw Exception();
     }
   }
+
+  @override
+  Future<void> postUserDatasource() async {}
 }

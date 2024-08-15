@@ -8,4 +8,8 @@ class UserUseCases {
   Future<List<UserEntity>> getusers() async {
     return userRepo.getUserFromDatasource();
   }
+
+    Future<void> postusers() async {
+    return userRepo.postUserDatasource();
+  }
 }

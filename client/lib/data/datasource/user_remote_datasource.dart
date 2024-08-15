@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDatasource {
   Future<List<UserModel>> getRandomUserFromApi();
+  Future<void> postUserFromApi();
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -25,5 +26,10 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       print("aqui");
       return responseBody.map((json) => UserModel.fromJson(json)).toList();
     }
+  }
+
+  @override
+  Future<void> postUserFromApi() async {
+    
   }
 }
