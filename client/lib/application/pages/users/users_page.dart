@@ -1,6 +1,6 @@
 import 'package:client/application/core/services/theme_service.dart';
+import 'package:client/application/pages/create_users_or_group/create_users_or_grup_page.dart';
 import 'package:client/application/pages/users/bloc/users_bloc_bloc.dart';
-import 'package:client/application/pages/users/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,6 @@ class UserPageProvider extends StatelessWidget {
     );
   }
  */
-
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
@@ -79,20 +78,58 @@ class _UserPageState extends State<UserPage> {
                       return const Text("User initial");
                     } else if (state is UserStateLoading) {
                       return CircularProgressIndicator(
-                        color: themeData.colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.secondary,
                       );
                     } else if (state is UserStateLoaded) {
                       return ListView.builder(
-                          itemCount: state.user
-                              .length, // Assumindo que `user` é uma lista de `UserModel`
-                          itemBuilder: (context, index) {
-                            final user = state.user[index];
-                            return ListTile(
-                              title: Text('${user.firstName} ${user.lastName}'),
-                              subtitle: Text(user.email),
-                              trailing: Text(user.group['name']),
-                            );
-                          });
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: state.user.length,
+                        itemBuilder: (context, index) {
+                          final user = state.user[index];
+                          return Card(
+                            elevation: 4,
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 16,
+                              ),
+                              title: Text(
+                                '${user.firstName} ${user.lastName}',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              subtitle: Text(
+                                user.email,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: Colors.grey),
+                              ),
+                              trailing: Chip(
+                                label: Text(
+                                  user.group['name'],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                      ),
+                                ),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     } else if (state is UserStateError) {
                       return Text(state.message);
                     }
@@ -101,14 +138,23 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 200,
-              child: Center(
-                child: CustomButton(),
-              ),
-            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateUserOrGroupPage(),
+            ),
+          );
+        },
+        child: Icon(
+          Icons.add,
+          color: themeData.colorScheme.primary,
+        ),
+        backgroundColor: themeData.colorScheme.secondary,
       ),
     );
   }
