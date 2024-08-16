@@ -27,7 +27,6 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
       emit(UserStateLoading());
 
       try {
-        // Converte o UserEntity para UserModel antes de enviar
         final userModel = UserModel(
           id: event.user.id,
           firstName: event.user.firstName,
@@ -36,7 +35,7 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
           group: event.user.group,
         );
 
-        await userUseCases!.postusers();
+        await userUseCases!.postusers(userModel.toJson());
         emit(UserPostStateSuccess(user: event.user));
       } catch (e) {
         emit(UserPostStateError(message: 'Failed to post user: $e'));

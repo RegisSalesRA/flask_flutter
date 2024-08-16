@@ -27,8 +27,8 @@ class _CreateUserOrGroupPageState extends State<CreateUserOrGroupPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: const Text(
+              const Center(
+                child: Text(
                   "Choose what to create:",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -88,9 +88,9 @@ class _CreateUserFormState extends State<CreateUserForm> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  String? _selectedGroup;
+  int? _selectedGroup;
 
-  final List<String> _groups = ["Admin", "User", "Guest"];
+  final List<int> _groups = [1, 2, 3];
 
   @override
   Widget build(BuildContext context) {
@@ -135,22 +135,22 @@ class _CreateUserFormState extends State<CreateUserForm> {
             },
           ),
           const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            decoration: const InputDecoration(labelText: "Group"),
+          DropdownButtonFormField<int>(
+            decoration: const InputDecoration(labelText: "1"),
             value: _selectedGroup,
             items: _groups.map((group) {
               return DropdownMenuItem(
                 value: group,
-                child: Text(group),
+                child: Text(group.toString()),
               );
             }).toList(),
             onChanged: (value) {
               setState(() {
-                _selectedGroup = value;
+                _selectedGroup = value!;
               });
             },
             validator: (value) {
-              if (value == null || value.isEmpty) {
+              if (value == null) {
                 return "Please select a group";
               }
               return null;
@@ -164,7 +164,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
                 firstName: _firstNameController.text,
                 lastName: _lastNameController.text,
                 email: _emailController.text,
-                group: {},
+                group: const {},
               );
               context.read<UsersBlocBloc>().add(
                     UserPostRequestedEvent(user: userEntity),
@@ -210,7 +210,6 @@ class _CreateGroupFormState extends State<CreateGroupForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                
                 final groupName = _groupNameController.text;
 
                 print("Group Name: $groupName");

@@ -33,6 +33,7 @@ class UserPageProvider extends StatelessWidget {
     );
   }
  */
+
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
@@ -150,11 +151,11 @@ class _UserPageState extends State<UserPage> {
             ),
           );
         },
+        backgroundColor: themeData.colorScheme.secondary,
         child: Icon(
           Icons.add,
           color: themeData.colorScheme.primary,
         ),
-        backgroundColor: themeData.colorScheme.secondary,
       ),
     );
   }

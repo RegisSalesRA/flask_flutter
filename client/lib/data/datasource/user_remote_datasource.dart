@@ -28,20 +28,18 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   }
 
   @override
-  Future<void> postUserFromApi(dynamic userModel) async {
-    print("POST CHAMANDO FINALMENTE!!");
-    /**
-     final response = await client.post(
-      Uri.parse('http://10.0.2.2:5000/contacts'),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: json.encode(userModel.toJson()), // Converte o UserModel para JSON
-    );
-
-    if (response.statusCode != 201) {
-      throw Exception("Falha ao criar o usuário. Código de status: ${response.statusCode}");
-    } 
-     */
+  Future<void> postUserFromApi(data) async {
+    print(data);
+    try {
+      await client.post(
+        Uri.parse('http://10.0.2.2:5000/create_contact'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }

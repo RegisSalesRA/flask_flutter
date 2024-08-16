@@ -38,7 +38,6 @@ class UserPostStateSuccess extends UsersBlocState {
   List<Object> get props => [user];
 }
 
-
 class UserPostStateError extends UsersBlocState {
   final String message;
 

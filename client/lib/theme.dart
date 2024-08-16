@@ -59,7 +59,7 @@ class AppTheme {
   // Button Styles
   // *****************
   static final ButtonStyle _lightElevatedButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Color(0xFF4AD9D9),
+    backgroundColor: const Color(0xFF4AD9D9),
     foregroundColor: _darkTextColorPrimary,
     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
     textStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -69,7 +69,7 @@ class AppTheme {
   );
 
   static final ButtonStyle _darkElevatedButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Color(0xFF4AD9D9),
+    backgroundColor: const Color(0xFF4AD9D9),
     foregroundColor: _darkTextColorPrimary,
     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
     textStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -82,13 +82,13 @@ class AppTheme {
   // RadioButton Styles
   // *****************
   static final RadioThemeData _lightRadioTheme = RadioThemeData(
-    fillColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade800),
-    overlayColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade200),
+    fillColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade800),
+    overlayColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade200),
   );
 
   static final RadioThemeData _darkRadioTheme = RadioThemeData(
-    fillColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade300),
-    overlayColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade600),
+    fillColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade300),
+    overlayColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade600),
   );
 
   // *****************
@@ -111,8 +111,8 @@ class AppTheme {
         ElevatedButtonThemeData(style: _lightElevatedButtonStyle),
     radioTheme: _lightRadioTheme,
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: TextStyle(color: _lightTextColorPrimary),
-      focusedBorder: OutlineInputBorder(
+      labelStyle: const TextStyle(color: _lightTextColorPrimary),
+      focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: _appbarColorLight),
       ),
       enabledBorder: OutlineInputBorder(
@@ -139,7 +139,7 @@ class AppTheme {
     elevatedButtonTheme:
         ElevatedButtonThemeData(style: _darkElevatedButtonStyle),
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: TextStyle(color: _darkTextColorPrimary),
+      labelStyle: const TextStyle(color: _darkTextColorPrimary),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: _appbarColorDark),
       ),

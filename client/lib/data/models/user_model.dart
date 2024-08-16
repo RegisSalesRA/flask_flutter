@@ -22,10 +22,9 @@ class UserModel extends UserEntity with EquatableMixin {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'firstName': firstName,
+      'lastName': lastName,
       'email': email,
-      'first_name': firstName,
-      'last_name': lastName,
       'group': group,
     };
   }

@@ -18,8 +18,7 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<void> postUserDatasource() async {
-    print("Chamando api dentro de repo implement");
-    await userRemoteDatasource.postUserFromApi({});
+  Future<void> postUserDatasource(data) async {
+    await userRemoteDatasource.postUserFromApi(data);
   }
 }
