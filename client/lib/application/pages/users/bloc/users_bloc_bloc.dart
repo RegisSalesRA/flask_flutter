@@ -16,7 +16,6 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
 
       try {
         final getUsers = await userUseCases!.getusers();
-        print(getUsers);
         emit(UserStateLoaded(user: getUsers));
       } catch (e) {
         emit(UserStateError(message: 'Failed to load users: $e'));
@@ -25,18 +24,9 @@ class UsersBlocBloc extends Bloc<UsersBlocEvent, UsersBlocState> {
 
     on<UserPostRequestedEvent>((event, emit) async {
       emit(UserStateLoading());
-
       try {
-        final userModel = UserModel(
-          id: event.user.id,
-          firstName: event.user.firstName,
-          lastName: event.user.lastName,
-          email: event.user.email,
-          group: event.user.group,
-        );
-
-        await userUseCases!.postusers(userModel.toJson());
-        emit(UserPostStateSuccess(user: event.user));
+        await userUseCases!.postusers(event.user);
+        add(UserRequestedEvent());
       } catch (e) {
         emit(UserPostStateError(message: 'Failed to post user: $e'));
       }

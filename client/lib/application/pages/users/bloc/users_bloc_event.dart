@@ -10,7 +10,7 @@ sealed class UsersBlocEvent extends Equatable {
 class UserRequestedEvent extends UsersBlocEvent {}
 
 class UserPostRequestedEvent extends UsersBlocEvent {
-  final UserEntity user;
+  final UserModel user;
 
   const UserPostRequestedEvent({required this.user});
 

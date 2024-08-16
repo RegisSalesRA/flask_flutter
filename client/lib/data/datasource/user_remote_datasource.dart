@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:client/data/models/user_model.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDatasource {
@@ -29,17 +30,23 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
   @override
   Future<void> postUserFromApi(data) async {
-    print(data);
+    print(data.user);
     try {
       await client.post(
         Uri.parse('http://10.0.2.2:5000/create_contact'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(data),
+        body: jsonEncode({
+          "firstName": data.user.firstName,
+          "lastName": data.user.lastName,
+          "email": data.user.email,
+          "groupId": data.user.group['groupId']
+        }),
       );
+      await getRandomUserFromApi();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }

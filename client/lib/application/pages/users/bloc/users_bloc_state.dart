@@ -14,7 +14,7 @@ class UserStateLoading extends UsersBlocState {}
 class UserStateLoaded extends UsersBlocState {
   final List<UserEntity> user;
 
-  const UserStateLoaded({required this.user});
+  const UserStateLoaded({required this.user, List<UserEntity>? users});
 
   @override
   List<Object> get props => [user];

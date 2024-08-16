@@ -1,6 +1,6 @@
+import 'package:client/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/entities/user_entity.dart';
 import '../../../injection.dart';
 import '../users/bloc/users_bloc_bloc.dart';
 
@@ -88,7 +88,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  int? _selectedGroup;
+  int? _selectedGroup = 1;
 
   final List<int> _groups = [1, 2, 3];
 
@@ -159,16 +159,19 @@ class _CreateUserFormState extends State<CreateUserForm> {
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
-              final userEntity = UserEntity(
-                id: 0,
-                firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
-                email: _emailController.text,
-                group: const {},
-              );
-              context.read<UsersBlocBloc>().add(
-                    UserPostRequestedEvent(user: userEntity),
-                  );
+              if (_formKey.currentState!.validate()) {
+                final userModel = UserModel(
+                  id: 0,
+                  firstName: _firstNameController.text,
+                  lastName: _lastNameController.text,
+                  email: _emailController.text,
+                  group: {"groupId": _selectedGroup},
+                );
+                context.read<UsersBlocBloc>().add(
+                      UserPostRequestedEvent(user: userModel),
+                    );
+                Navigator.pop(context);
+              }
             },
             style: ElevatedButton.styleFrom(),
             child: const Text("Save User"),
