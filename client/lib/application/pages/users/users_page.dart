@@ -18,22 +18,6 @@ class UserPageProvider extends StatelessWidget {
   }
 }
 
-/*
-  @override
-  Widget build(BuildContext context) { 
-    final client = http.Client();
-    final userRemoteDatasource = UserRemoteDatasourceImpl(client: client);
-    final userRepo = UserRepoImpl(userRemoteDatasource: userRemoteDatasource);
-    final userUseCases = UserUseCases(userRepo: userRepo);
-    final usersBloc = UsersBlocBloc(userUseCases: userUseCases);
-
-    return BlocProvider(
-      create: (context) => usersBloc,
-      child: const UserPage(),
-    );
-  }
- */
-
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
@@ -45,7 +29,9 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
-    context.read<UsersBlocBloc>().add(UserRequestedEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UsersBlocBloc>().add(UserRequestedEvent());
+    });
   }
 
   @override
@@ -67,79 +53,97 @@ class _UserPageState extends State<UserPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: BlocBuilder<UsersBlocBloc, UsersBlocState>(
-                  builder: (context, state) {
-                    if (state is UsersBlocInitial) {
-                      return const Text("User initial");
-                    } else if (state is UserStateLoading) {
-                      return CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.secondary,
-                      );
-                    } else if (state is UserStateLoaded) {
-                      return ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: state.user.length,
-                        itemBuilder: (context, index) {
-                          final user = state.user[index];
-                          return Card(
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 16,
-                              ),
-                              title: Text(
-                                '${user.firstName} ${user.lastName}',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              subtitle: Text(
-                                user.email,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(color: Colors.grey),
-                              ),
-                              trailing: Chip(
-                                label: Text(
-                                  user.group['name'],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                      ),
-                                ),
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
-                              ),
-                            ),
+      body: BlocListener<UsersBlocBloc, UsersBlocState>(
+        listener: (context, state) {
+          if (state is UserStateError) {
+            // Mostra um Snackbar ou um diálogo quando há um erro
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+          // Adicione outras reações a mudanças de estado aqui, se necessário
+        },
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: BlocBuilder<UsersBlocBloc, UsersBlocState>(
+                      builder: (context, state) {
+                        if (state is UsersBlocInitial) {
+                          return const Text("User initial");
+                        } else if (state is UserStateLoading) {
+                          return CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.secondary,
                           );
-                        },
-                      );
-                    } else if (state is UserStateError) {
-                      return Text(state.message);
-                    }
-                    return const SizedBox();
-                  },
+                        } else if (state is UserStateLoaded) {
+                          return ListView.builder(
+                            itemCount: state.user.length,
+                            itemBuilder: (context, index) {
+                              final user = state.user[index];
+                              return Card(
+                                elevation: 4,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                    horizontal: 16,
+                                  ),
+                                  title: Text(
+                                    '${user.firstName} ${user.lastName}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  subtitle: Text(
+                                    user.email,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(color: Colors.grey),
+                                  ),
+                                  trailing: Chip(
+                                    label: Text(
+                                      user.group['name'],
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
+                                    ),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else if (state is UserStateError) {
+                          return Text(state.message);
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ),
                 ),
-              ),
+                ElevatedButton(
+                    onPressed: () {
+                      context.read<UsersBlocBloc>().add(UserRequestedEvent());
+                    },
+                    child: const Text("Refresh"))
+              ],
             ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

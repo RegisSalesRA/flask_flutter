@@ -30,7 +30,6 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
 
   @override
   Future<void> postUserFromApi(data) async {
-    print(data.user);
     try {
       await client.post(
         Uri.parse('http://10.0.2.2:5000/create_contact'),
@@ -38,13 +37,12 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "firstName": data.user.firstName,
-          "lastName": data.user.lastName,
-          "email": data.user.email,
-          "groupId": data.user.group['groupId']
+          "firstName": data.firstName,
+          "lastName": data.lastName,
+          "email": data.email,
+          "groupId": data.group['groupId']
         }),
       );
-      await getRandomUserFromApi();
     } catch (e) {
       debugPrint(e.toString());
     }

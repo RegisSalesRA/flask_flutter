@@ -170,12 +170,13 @@ class _CreateUserFormState extends State<CreateUserForm> {
                 context.read<UsersBlocBloc>().add(
                       UserPostRequestedEvent(user: userModel),
                     );
+
+                context.read<UsersBlocBloc>().add(UserRequestedEvent());
                 Navigator.pop(context);
               }
             },
-            style: ElevatedButton.styleFrom(),
             child: const Text("Save User"),
-          ),
+          )
         ],
       ),
     );
