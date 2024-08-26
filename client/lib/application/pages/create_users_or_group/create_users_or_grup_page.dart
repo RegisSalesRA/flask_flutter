@@ -1,7 +1,6 @@
 import 'package:client/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../injection.dart';
 import '../users/bloc/users_bloc_bloc.dart';
 
 class CreateUserOrGroupPage extends StatefulWidget {
@@ -16,60 +15,57 @@ class _CreateUserOrGroupPageState extends State<CreateUserOrGroupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<UsersBlocBloc>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Create User or Group"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Center(
-                child: Text(
-                  "Choose what to create:",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create User or Group"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Center(
+              child: Text(
+                "Choose what to create:",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: RadioListTile<String>(
+                    title: const Text("User"),
+                    value: 'User',
+                    groupValue: _selectedForm,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedForm = value!;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<String>(
-                      title: const Text("User"),
-                      value: 'User',
-                      groupValue: _selectedForm,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedForm = value!;
-                        });
-                      },
-                    ),
+                Expanded(
+                  child: RadioListTile<String>(
+                    title: const Text("Group"),
+                    value: 'Group',
+                    groupValue: _selectedForm,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedForm = value!;
+                      });
+                    },
                   ),
-                  Expanded(
-                    child: RadioListTile<String>(
-                      title: const Text("Group"),
-                      value: 'Group',
-                      groupValue: _selectedForm,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedForm = value!;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: _selectedForm == 'User'
-                    ? const CreateUserForm()
-                    : const CreateGroupForm(),
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Expanded(
+              child: _selectedForm == 'User'
+                  ? const CreateUserForm()
+                  : const CreateGroupForm(),
+            ),
+          ],
         ),
       ),
     );
@@ -167,11 +163,9 @@ class _CreateUserFormState extends State<CreateUserForm> {
                   email: _emailController.text,
                   group: {"groupId": _selectedGroup},
                 );
-                context.read<UsersBlocBloc>().add(
-                      UserPostRequestedEvent(user: userModel),
+                context.read<UserBloc>().add(
+                      AddUser(userModel),
                     );
-
-                context.read<UsersBlocBloc>().add(UserRequestedEvent());
                 Navigator.pop(context);
               }
             },

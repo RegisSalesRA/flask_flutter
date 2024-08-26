@@ -1,19 +1,37 @@
 part of 'users_bloc_bloc.dart';
 
-sealed class UsersBlocEvent extends Equatable {
-  const UsersBlocEvent();
+sealed class UserEvent extends Equatable {
+  const UserEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class UserRequestedEvent extends UsersBlocEvent {}
+class LoadUsers extends UserEvent {}
 
-class UserPostRequestedEvent extends UsersBlocEvent {
+class AddUser extends UserEvent {
   final UserModel user;
 
-  const UserPostRequestedEvent({required this.user});
+  AddUser(this.user);
 
   @override
-  List<Object> get props => [user];
+  List<Object?> get props => [user];
+}
+
+class UpdateUser extends UserEvent {
+  final UserModel user;
+
+  UpdateUser(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class DeletePost extends UserEvent {
+  final int id;
+
+  DeletePost(this.id);
+
+  @override
+  List<Object?> get props => [id];
 }

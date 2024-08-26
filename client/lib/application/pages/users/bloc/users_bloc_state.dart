@@ -1,48 +1,28 @@
 part of 'users_bloc_bloc.dart';
 
-abstract class UsersBlocState extends Equatable {
-  const UsersBlocState();
-
+abstract class UserState extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class UsersBlocInitial extends UsersBlocState {}
+class UserInitial extends UserState {}
 
-class UserStateLoading extends UsersBlocState {}
+class UserLoading extends UserState {}
 
-class UserStateLoaded extends UsersBlocState {
-  final List<UserEntity> user;
+class UserLoaded extends UserState {
+  final List<dynamic> users;
 
-  const UserStateLoaded({required this.user, List<UserEntity>? users});
+  UserLoaded(this.users);
 
   @override
-  List<Object> get props => [user];
+  List<Object?> get props => [users];
 }
 
-class UserStateError extends UsersBlocState {
+class UserError extends UserState {
   final String message;
 
-  const UserStateError({required this.message});
+  UserError(this.message);
 
   @override
-  List<Object> get props => [message];
-}
-
-class UserPostStateSuccess extends UsersBlocState {
-  final UserEntity user;
-
-  const UserPostStateSuccess({required this.user});
-
-  @override
-  List<Object> get props => [user];
-}
-
-class UserPostStateError extends UsersBlocState {
-  final String message;
-
-  const UserPostStateError({required this.message});
-
-  @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }

@@ -11,7 +11,7 @@ final sl = GetIt.I; // sl == Service Locator
 Future<void> init() async {
 // ! application Layer
   // Factory = every time a new/fresh instance of that class
-  sl.registerFactory(() => UsersBlocBloc(userUseCases: sl()));
+  sl.registerFactory(() => UserBloc(userUseCases: sl()));
 
 // ! domain Layer
   sl.registerFactory(() => UserUseCases(userRepo: sl()));

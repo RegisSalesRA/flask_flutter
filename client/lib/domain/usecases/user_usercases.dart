@@ -9,7 +9,7 @@ class UserUseCases {
     return userRepo.getUserFromDatasource();
   }
 
-    Future<void> postusers(data) async {
+  Future<void> postusers(data) async {
     return userRepo.postUserDatasource(data);
   }
 }
