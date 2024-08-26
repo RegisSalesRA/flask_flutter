@@ -12,7 +12,6 @@ class UserRepoImpl implements UserRepo {
       final result = await userRemoteDatasource.getRandomUserFromApi();
       return result;
     } catch (e) {
-      print(e);
       throw Exception();
     }
   }
@@ -20,5 +19,10 @@ class UserRepoImpl implements UserRepo {
   @override
   Future<void> postUserDatasource(data) async {
     await userRemoteDatasource.postUserFromApi(data);
+  }
+
+  @override
+  Future<void> deleteUserDataSource(id) async {
+    await userRemoteDatasource.deleteUserFromApi(id);
   }
 }

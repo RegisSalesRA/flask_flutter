@@ -1,4 +1,4 @@
-part of 'users_bloc_bloc.dart';
+part of 'users_bloc.dart';
 
 abstract class UserState extends Equatable {
   @override

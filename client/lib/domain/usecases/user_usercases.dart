@@ -12,4 +12,8 @@ class UserUseCases {
   Future<void> postusers(data) async {
     return userRepo.postUserDatasource(data);
   }
+
+  Future<void> deleteusers(id) async {
+    return userRepo.deleteUserDataSource(id);
+  }
 }

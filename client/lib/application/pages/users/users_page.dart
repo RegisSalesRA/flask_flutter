@@ -1,6 +1,6 @@
 import 'package:client/application/core/services/theme_service.dart';
 import 'package:client/application/pages/create_users_or_group/create_users_or_grup_page.dart';
-import 'package:client/application/pages/users/bloc/users_bloc_bloc.dart';
+import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -69,36 +69,79 @@ class _UserPageState extends State<UserPageProvider> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
                                   horizontal: 16,
                                 ),
-                                title: Text(
-                                  '${user.firstName} ${user.lastName}',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                subtitle: Text(
-                                  user.email,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(color: Colors.grey),
-                                ),
-                                trailing: Chip(
-                                  label: Text(
-                                    user.group['name'],
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${user.firstName} ${user.lastName}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            user.email,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(color: Colors.grey),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Chip(
+                                            label: Text(
+                                              user.group['groupId'].toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSecondary,
+                                                  ),
+                                            ),
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    // Action buttons (right aligned)
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color:
+                                                themeData.colorScheme.secondary,
+                                          ),
+                                          onPressed: () {
+                                            // Handle edit action here
+                                          },
                                         ),
-                                  ),
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.secondary,
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: themeData.colorScheme.error,
+                                          ),
+                                          onPressed: () {
+                                            context
+                                                .read<UserBloc>()
+                                                .add(DeleteUser(user.id));
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             );

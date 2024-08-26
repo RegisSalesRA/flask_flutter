@@ -1,4 +1,4 @@
-import 'package:client/application/pages/users/bloc/users_bloc_bloc.dart';
+import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:client/application/pages/users/users_page.dart';
 import 'package:client/injection.dart';
 import 'package:client/theme.dart';

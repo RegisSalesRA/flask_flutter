@@ -4,4 +4,6 @@ abstract class UserRepo {
   Future<List<UserEntity>> getUserFromDatasource();
 
   Future<void> postUserDatasource(data);
+
+  Future<void> deleteUserDataSource(id);
 }

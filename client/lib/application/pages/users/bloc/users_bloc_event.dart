@@ -1,4 +1,4 @@
-part of 'users_bloc_bloc.dart';
+part of 'users_bloc.dart';
 
 sealed class UserEvent extends Equatable {
   const UserEvent();
@@ -27,10 +27,10 @@ class UpdateUser extends UserEvent {
   List<Object?> get props => [user];
 }
 
-class DeletePost extends UserEvent {
+class DeleteUser extends UserEvent {
   final int id;
 
-  DeletePost(this.id);
+  DeleteUser(this.id);
 
   @override
   List<Object?> get props => [id];

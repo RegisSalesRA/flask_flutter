@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 abstract class UserRemoteDatasource {
   Future<List<UserModel>> getRandomUserFromApi();
   Future<void> postUserFromApi(dynamic userModel);
+  Future<void> deleteUserFromApi(int id);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -43,6 +44,19 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           "groupId": data.group['groupId']
         }),
       );
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteUserFromApi(id) async {
+    try {
+      final response = await client
+          .delete(Uri.parse('http://10.0.2.2:5000/delete_contact/$id'));
+      if (response.statusCode != 200) {
+        throw Exception("Failed to delete post");
+      }
     } catch (e) {
       debugPrint(e.toString());
     }

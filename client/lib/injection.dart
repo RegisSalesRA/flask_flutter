@@ -1,4 +1,4 @@
-import 'package:client/application/pages/users/bloc/users_bloc_bloc.dart';
+import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:client/data/datasource/user_remote_datasource.dart';
 import 'package:client/data/repositories/user_repo_impl.dart';
 import 'package:client/domain/repositories/user_repository.dart';
