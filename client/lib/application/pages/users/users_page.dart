@@ -1,10 +1,10 @@
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:client/application/pages/users/create_users_or_grup_page.dart';
+import 'package:client/application/pages/users/widgets/appbar_widget.dart';
 import 'package:client/application/pages/users/widgets/form_update_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-
 import '../../core/services/theme_service.dart';
 
 class UserPageProvider extends StatefulWidget {
@@ -27,20 +27,15 @@ class _UserPageState extends State<UserPageProvider> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Users list",
-          style: themeData.textTheme.bodyLarge,
+      appBar: AppBarWidget(
+        themeData: themeData,
+        title: "Flask Flutter Bloc",
+        widgetAction: Switch(
+          value: Provider.of<ThemeService>(context).isDarkModeOn,
+          onChanged: (_) {
+            Provider.of<ThemeService>(context, listen: false).toggleTheme();
+          },
         ),
-        centerTitle: true,
-        actions: [
-          Switch(
-            value: Provider.of<ThemeService>(context).isDarkModeOn,
-            onChanged: (_) {
-              Provider.of<ThemeService>(context, listen: false).toggleTheme();
-            },
-          ),
-        ],
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

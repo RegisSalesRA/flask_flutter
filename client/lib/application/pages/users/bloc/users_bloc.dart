@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:client/application/helpers/handler_erros_helper.dart';
 import 'package:client/domain/usecases/user_usercases.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../data/models/user_model.dart';
@@ -22,7 +23,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       final users = await userUseCases.getusers();
       emit(UserLoaded(users));
     } catch (e) {
-      emit(_handleError(e));
+      emit(handleError(e));
     }
   }
 
@@ -34,7 +35,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           ..add(event.user);
         emit(UserLoaded(updatedUsers));
       } catch (e) {
-        emit(_handleError(e));
+        emit(handleError(e));
       }
     }
   }
@@ -48,7 +49,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }).toList();
         emit(UserLoaded(updatedUsers));
       } catch (e) {
-        emit(_handleError(e));
+        emit(handleError(e));
       }
     }
   }
@@ -63,36 +64,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             .toList();
         emit(UserLoaded(updatedUsers));
       } catch (e) {
-        emit(_handleError(e));
+        emit(handleError(e));
       }
     }
   }
-
-  UserError _handleError(dynamic e) {
-    if (e is NetworkException) {
-      return UserError("Network Error: ${e.message}");
-    } else if (e is TimeoutException) {
-      return UserError("Request timed out. Please try again.");
-    } else {
-      return UserError("Unexpected error occurred: ${e.toString()}");
-    }
-  }
-}
-
-class NetworkException implements Exception {
-  final String message;
-
-  NetworkException([this.message = 'Network error occurred']);
-
-  @override
-  String toString() => message;
-}
-
-class TimeoutException implements Exception {
-  final String message;
-
-  TimeoutException([this.message = 'Request timed out']);
-
-  @override
-  String toString() => message;
 }
