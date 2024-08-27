@@ -1,11 +1,11 @@
-import 'package:client/application/core/services/theme_service.dart';
-import 'package:client/application/pages/users/create_users_or_grup_page.dart';
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
+import 'package:client/application/pages/users/create_users_or_grup_page.dart';
+import 'package:client/application/pages/users/widgets/form_update_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../data/models/user_model.dart';
+import '../../core/services/theme_service.dart';
 
 class UserPageProvider extends StatefulWidget {
   const UserPageProvider({super.key});
@@ -65,18 +65,37 @@ class _UserPageState extends State<UserPageProvider> {
                           itemBuilder: (context, index) {
                             final user = state.users[index];
                             return Card(
-                              elevation: 4,
+                              elevation: 8,
                               margin: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
+                                  vertical: 8, horizontal: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: 16,
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      themeData.colorScheme.primary
+                                          .withOpacity(0.15),
+                                      themeData.colorScheme.secondary
+                                          .withOpacity(0.15),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
                                 ),
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
                                       child: Column(
@@ -84,35 +103,49 @@ class _UserPageState extends State<UserPageProvider> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${user.firstName}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge,
+                                            user.firstName,
+                                            style: themeData
+                                                .textTheme.titleLarge
+                                                ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: themeData
+                                                  .colorScheme.onBackground,
+                                            ),
                                           ),
-                                          const SizedBox(height: 4),
+                                          const SizedBox(height: 6),
                                           Text(
                                             user.email,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(color: Colors.grey),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Chip(
-                                            label: Text(
-                                              user.group['groupId'].toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSecondary,
-                                                  ),
+                                            style: themeData
+                                                .textTheme.bodyMedium
+                                                ?.copyWith(
+                                              color: themeData
+                                                  .colorScheme.onSurface
+                                                  .withOpacity(0.7),
                                             ),
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                              horizontal: 12,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: themeData
+                                                  .colorScheme.secondary
+                                                  .withOpacity(0.9),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              user.group['name'],
+                                              style: themeData
+                                                  .textTheme.bodySmall
+                                                  ?.copyWith(
+                                                color: themeData
+                                                    .colorScheme.onSecondary,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -124,6 +157,7 @@ class _UserPageState extends State<UserPageProvider> {
                                             Icons.edit,
                                             color:
                                                 themeData.colorScheme.secondary,
+                                            size: 20,
                                           ),
                                           onPressed: () {
                                             showDialog(
@@ -137,6 +171,7 @@ class _UserPageState extends State<UserPageProvider> {
                                           icon: Icon(
                                             Icons.delete,
                                             color: themeData.colorScheme.error,
+                                            size: 20,
                                           ),
                                           onPressed: () {
                                             context
@@ -179,127 +214,6 @@ class _UserPageState extends State<UserPageProvider> {
           color: themeData.colorScheme.primary,
         ),
       ),
-    );
-  }
-}
-
-class UserFormModal extends StatefulWidget {
-  final int id;
-  const UserFormModal({required this.id});
-
-  @override
-  _UserFormModalState createState() => _UserFormModalState();
-}
-
-class _UserFormModalState extends State<UserFormModal> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  int? _selectedGroup;
-  final List<int> _groups = [1, 2, 3, 4];
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Text("Add New User",
-          style: TextStyle(fontWeight: FontWeight.bold)),
-      content: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _firstNameController,
-                decoration: InputDecoration(
-                  labelText: "First Name",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter the first name";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter the email";
-                  }
-                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return "Please enter a valid email address";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<int>(
-                decoration: InputDecoration(
-                  labelText: "Group",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                ),
-                value: _selectedGroup,
-                items: _groups.map((group) {
-                  return DropdownMenuItem(
-                    value: group,
-                    child: Text("Group $group"),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGroup = value;
-                  });
-                },
-                validator: (value) {
-                  if (value == null) {
-                    return "Please select a group";
-                  }
-                  return null;
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              final userModel = UserModel(
-                id: widget.id,
-                firstName: _firstNameController.text,
-                email: _emailController.text,
-                group: {"groupId": _selectedGroup},
-              );
-              context.read<UserBloc>().add(UpdateUser(userModel));
-              Navigator.pop(context);
-            }
-          },
-          child: const Text("Save User"),
-        ),
-      ],
     );
   }
 }

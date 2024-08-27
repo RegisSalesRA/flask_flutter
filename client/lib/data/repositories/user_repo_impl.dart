@@ -9,8 +9,7 @@ class UserRepoImpl implements UserRepo {
   @override
   Future<List<UserEntity>> getUserFromDatasource() async {
     try {
-      final result = await userRemoteDatasource.getRandomUserFromApi();
-      return result;
+      return await userRemoteDatasource.getRandomUserFromApi();
     } catch (e) {
       throw Exception();
     }
@@ -26,7 +25,7 @@ class UserRepoImpl implements UserRepo {
     await userRemoteDatasource.deleteUserFromApi(id);
   }
 
-    @override
+  @override
   Future<void> updateUserDataSource(id) async {
     await userRemoteDatasource.updateUserFromApi(id);
   }
