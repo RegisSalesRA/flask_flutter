@@ -42,7 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Future<void> _onUpdateUser(UpdateUser event, Emitter<UserState> emit) async {
     if (state is UserLoaded) {
       try {
-        //   await userUseCases.updateUser(event.user);
+        await userUseCases.updateusers(event.user);
         final updatedUsers = (state as UserLoaded).users.map((user) {
           return user.id == event.user.id ? event.user : user;
         }).toList();

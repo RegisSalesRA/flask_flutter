@@ -66,11 +66,18 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   Future<void> updateUserFromApi(data) async {
     try {
-      final response = await client
-          .patch(Uri.parse('http://10.0.2.2:5000/update_contact/$data'));
-      if (response.statusCode != 200) {
-        throw Exception("Failed to delete post");
-      }
+      await client.patch(
+        Uri.parse('http://10.0.2.2:5000/update_contact/${data.id}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "firstName": data.firstName,
+          "lastName": data.lastName,
+          "email": data.email,
+          "groupId": data.group['groupId']
+        }),
+      );
     } catch (e) {
       debugPrint(e.toString());
     }
