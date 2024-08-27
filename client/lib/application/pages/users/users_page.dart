@@ -84,7 +84,7 @@ class _UserPageState extends State<UserPageProvider> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${user.firstName} ${user.lastName}',
+                                            '${user.firstName}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyLarge,
@@ -194,7 +194,6 @@ class UserFormModal extends StatefulWidget {
 class _UserFormModalState extends State<UserFormModal> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   int? _selectedGroup;
   final List<int> _groups = [1, 2, 3, 4];
@@ -223,23 +222,6 @@ class _UserFormModalState extends State<UserFormModal> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Please enter the first name";
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: InputDecoration(
-                  labelText: "Last Name",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter the last name";
                   }
                   return null;
                 },
@@ -308,7 +290,6 @@ class _UserFormModalState extends State<UserFormModal> {
               final userModel = UserModel(
                 id: widget.id,
                 firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
                 email: _emailController.text,
                 group: {"groupId": _selectedGroup},
               );

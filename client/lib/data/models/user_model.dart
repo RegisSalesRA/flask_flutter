@@ -5,8 +5,7 @@ class UserModel extends UserEntity with EquatableMixin {
   UserModel({
     required super.id,
     required super.email,
-    required super.firstName,
-    required super.lastName,
+    required super.firstName, 
     required super.group,
   });
 
@@ -14,16 +13,14 @@ class UserModel extends UserEntity with EquatableMixin {
     return UserModel(
       id: json['id'],
       email: json['email'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
+      firstName: json['firstName'], 
       group: json['group'] as Map,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'firstName': firstName,
-      'lastName': lastName,
+      'firstName': firstName, 
       'email': email,
       'group': group,
     };

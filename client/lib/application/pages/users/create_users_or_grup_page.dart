@@ -81,8 +81,7 @@ class CreateUserForm extends StatefulWidget {
 
 class _CreateUserFormState extends State<CreateUserForm> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController(); 
   final TextEditingController _emailController = TextEditingController();
   int? _selectedGroup = 1;
 
@@ -103,18 +102,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
               }
               return null;
             },
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _lastNameController,
-            decoration: const InputDecoration(labelText: "Last Name"),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Please enter the last name";
-              }
-              return null;
-            },
-          ),
+          ), 
           const SizedBox(height: 16),
           TextFormField(
             controller: _emailController,
@@ -158,8 +146,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
               if (_formKey.currentState!.validate()) {
                 final userModel = UserModel(
                   id: 0,
-                  firstName: _firstNameController.text,
-                  lastName: _lastNameController.text,
+                  firstName: _firstNameController.text, 
                   email: _emailController.text,
                   group: {"groupId": _selectedGroup},
                 );
