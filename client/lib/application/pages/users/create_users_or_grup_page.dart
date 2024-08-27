@@ -1,7 +1,7 @@
 import 'package:client/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../users/bloc/users_bloc.dart';
+import 'bloc/users_bloc.dart';
 
 class CreateUserOrGroupPage extends StatefulWidget {
   const CreateUserOrGroupPage({super.key});
