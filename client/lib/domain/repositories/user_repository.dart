@@ -6,4 +6,6 @@ abstract class UserRepo {
   Future<void> postUserDatasource(data);
 
   Future<void> deleteUserDataSource(id);
+  
+  Future<void> updateUserDataSource(data);
 }

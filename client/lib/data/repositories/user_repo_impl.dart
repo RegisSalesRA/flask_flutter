@@ -25,4 +25,9 @@ class UserRepoImpl implements UserRepo {
   Future<void> deleteUserDataSource(id) async {
     await userRemoteDatasource.deleteUserFromApi(id);
   }
+
+    @override
+  Future<void> updateUserDataSource(id) async {
+    await userRemoteDatasource.updateUserFromApi(id);
+  }
 }
