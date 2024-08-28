@@ -62,23 +62,30 @@ class _CreateUserFormState extends State<CreateUserForm> {
             },
           ),
           const SizedBox(height: 16),
-          DropdownButtonFormField<int>(
-            decoration: const InputDecoration(labelText: "Group"),
-            value: _selectedGroup,
-            items: _groups.map((group) {
-              return DropdownMenuItem<int>(
-                value: group['id'] as int,
-                child: Text(group['name']),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedGroup = value!;
-              });
-            },
-            validator: (value) =>
-                value == null ? "Please select a group" : null,
-          ),
+          DropdownButtonHideUnderline(
+              child: ButtonTheme(
+            alignedDropdown: true,
+            child: DropdownButtonFormField<int>(
+              decoration: const InputDecoration(labelText: "Group"),
+              value: _selectedGroup,
+              items: _groups.map((group) {
+                return DropdownMenuItem<int>(
+                  value: group['id'] as int,
+                  child: SizedBox(
+                      width: 150,
+                      child:
+                          Text(group['name'], overflow: TextOverflow.ellipsis)),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedGroup = value!;
+                });
+              },
+              validator: (value) =>
+                  value == null ? "Please select a group" : null,
+            ),
+          )),
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
