@@ -4,8 +4,6 @@ import 'package:client/application/pages/users/widgets/appbar_widget.dart';
 import 'package:client/application/pages/users/widgets/form_update_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import '../../core/services/theme_service.dart';
 
 class UserPageProvider extends StatefulWidget {
   const UserPageProvider({super.key});
@@ -30,12 +28,7 @@ class _UserPageState extends State<UserPageProvider> {
       appBar: AppBarWidget(
         themeData: themeData,
         title: "Flask Flutter Bloc",
-        widgetAction: Switch(
-          value: Provider.of<ThemeService>(context).isDarkModeOn,
-          onChanged: (_) {
-            Provider.of<ThemeService>(context, listen: false).toggleTheme();
-          },
-        ),
+        widgetAction: SizedBox(),
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
