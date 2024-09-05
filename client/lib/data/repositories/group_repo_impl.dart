@@ -1,6 +1,7 @@
-import 'package:client/data/datasource/group_remote_datasource.dart'; 
-import 'package:client/domain/entities/group_entity.dart'; 
-import 'package:client/domain/repositories/group_repository.dart'; 
+import 'package:client/data/datasource/group_remote_datasource.dart';
+import 'package:client/domain/entities/group_entity.dart';
+import 'package:client/domain/repositories/group_repository.dart';
+import 'package:flutter/material.dart';
 
 class GroupRepoImpl implements GroupRepo {
   GroupRepoImpl({required this.groupRemoteDatasource});
@@ -17,8 +18,10 @@ class GroupRepoImpl implements GroupRepo {
 
   @override
   Future<void> postGroupDatasource(data) async {
-    await groupRemoteDatasource.postGroupFromApi(data);
+    try {
+      await groupRemoteDatasource.postGroupFromApi(data);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
-
-
 }

@@ -1,3 +1,4 @@
+import 'package:client/application/pages/groups/bloc/group_bloc.dart';
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:client/data/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +17,19 @@ class _CreateUserFormState extends State<CreateUserForm> {
   final TextEditingController _emailController = TextEditingController();
   int? _selectedGroup = 1;
 
-  final List<Map<String, dynamic>> _groups = [
-    {"id": 1, "name": "Admin"},
-    {"id": 2, "name": "User"},
-    {"id": 3, "name": "Guest"}
-  ];
-
   @override
   void dispose() {
     _firstNameController.dispose();
     _emailController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<GroupBloc>().add(LoadGroups());
+    });
   }
 
   @override
@@ -62,30 +65,52 @@ class _CreateUserFormState extends State<CreateUserForm> {
             },
           ),
           const SizedBox(height: 16),
-          DropdownButtonHideUnderline(
-              child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButtonFormField<int>(
-              decoration: const InputDecoration(labelText: "Group"),
-              value: _selectedGroup,
-              items: _groups.map((group) {
-                return DropdownMenuItem<int>(
-                  value: group['id'] as int,
-                  child: SizedBox(
-                      width: 150,
-                      child:
-                          Text(group['name'], overflow: TextOverflow.ellipsis)),
+          BlocBuilder<GroupBloc, GroupState>(
+            builder: (context, state) {
+              if (state is GroupInitial) {
+                return const Text("Group initial");
+              } else if (state is GroupLoading) {
+                return CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.secondary,
                 );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedGroup = value!;
-                });
-              },
-              validator: (value) =>
-                  value == null ? "Please select a group" : null,
-            ),
-          )),
+              } else if (state is GroupLoaded) {
+                final loadedGroups = state.groups;
+
+                return DropdownButtonHideUnderline(
+                  child: ButtonTheme(
+                    alignedDropdown: true,
+                    child: DropdownButtonFormField<int>(
+                      decoration: const InputDecoration(labelText: "Group"),
+                      value: _selectedGroup,
+                      items: loadedGroups.map((group) {
+                        return DropdownMenuItem<int>(
+                          value: group.id,
+                          child: SizedBox(
+                            width: 150,
+                            child: Text(
+                              group.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGroup = value!;
+                        });
+                      },
+                      validator: (value) =>
+                          value == null ? "Please select a group" : null,
+                    ),
+                  ),
+                );
+              } else if (state is GroupError) {
+                return Text(state.message);
+              }
+
+              return const SizedBox();
+            },
+          ),
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {

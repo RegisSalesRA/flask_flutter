@@ -1,5 +1,5 @@
 import 'package:client/application/pages/users/widgets/appbar_widget.dart';
-import 'package:client/application/pages/users/widgets/group_form_widget.dart';
+import 'package:client/application/pages/groups/group_form_widget.dart';
 import 'package:client/application/pages/users/widgets/user_form_widget.dart';
 import 'package:flutter/material.dart';
 

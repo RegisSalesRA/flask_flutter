@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:client/application/helpers/handler_erros_helper.dart';
-import 'package:client/domain/usecases/user_usercases.dart';
+import 'package:client/domain/usecases/user_usercase.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../data/models/user_model.dart';
 
@@ -31,9 +31,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (state is UserLoaded) {
       try {
         await userUseCases.postusers(event.user);
-        final updatedUsers = List.of((state as UserLoaded).users)
-          ..add(event.user);
-        emit(UserLoaded(updatedUsers));
+        final addUsers = List.of((state as UserLoaded).users)..add(event.user);
+        emit(UserLoaded(addUsers));
       } catch (e) {
         emit(handleError(e));
       }

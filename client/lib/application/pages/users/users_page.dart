@@ -5,14 +5,14 @@ import 'package:client/application/pages/users/widgets/form_update_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserPageProvider extends StatefulWidget {
-  const UserPageProvider({super.key});
+class UserPage extends StatefulWidget {
+  const UserPage({super.key});
 
   @override
   _UserPageState createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPageProvider> {
+class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
@@ -47,7 +47,9 @@ class _UserPageState extends State<UserPageProvider> {
                         return CircularProgressIndicator(
                           color: Theme.of(context).colorScheme.secondary,
                         );
-                      } else if (state is UserLoaded) {
+                      }
+                      
+                       else if (state is UserLoaded) {
                         return ListView.builder(
                           itemCount: state.users.length,
                           itemBuilder: (context, index) {
