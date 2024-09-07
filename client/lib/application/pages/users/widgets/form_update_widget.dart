@@ -114,6 +114,7 @@ class _UserFormModalState extends State<UserFormModal> {
                 email: _emailController.text,
                 group: {"groupId": _selectedGroup},
               );
+              
               context.read<UserBloc>().add(UpdateUser(userModel));
               Navigator.pop(context);
             }

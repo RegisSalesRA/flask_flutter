@@ -45,8 +45,8 @@ class _CreateGroupFormState extends State<CreateGroupForm> {
                   GroupModel group =
                       GroupModel(id: 0, name: _groupNameController.text);
                   context.read<GroupBloc>().add(AddGroup(group));
-                  //   _groupNameController.clear();
-                  //     Navigator.pop(context);
+                  _groupNameController.clear();
+                  Navigator.pop(context);
                 }
               },
               child: const Text("Save Group"),

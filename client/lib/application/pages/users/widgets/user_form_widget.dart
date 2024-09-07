@@ -1,5 +1,6 @@
 import 'package:client/application/pages/groups/bloc/group_bloc.dart';
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
+import 'package:client/application/pages/users/widgets/empty_message_widget.dart';
 import 'package:client/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +35,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -75,61 +77,73 @@ class _CreateUserFormState extends State<CreateUserForm> {
                 );
               } else if (state is GroupLoaded) {
                 final loadedGroups = state.groups;
-
-                return DropdownButtonHideUnderline(
-                  child: ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(labelText: "Group"),
-                      value: _selectedGroup,
-                      items: loadedGroups.map((group) {
-                        return DropdownMenuItem<int>(
-                          value: group.id,
-                          child: SizedBox(
-                            width: 150,
-                            child: Text(
-                              group.name,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                if (state.groups.isEmpty) {
+                  return EmptyListWidget(
+                    themeData: themeData,
+                    message: "Please create first a group",
+                  );
+                } else {
+                  return Column(
+                    children: [
+                      DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          child: DropdownButtonFormField<int>(
+                            decoration:
+                                const InputDecoration(labelText: "Group"),
+                            value: _selectedGroup,
+                            items: loadedGroups.map((group) {
+                              return DropdownMenuItem<int>(
+                                value: group.id,
+                                child: SizedBox(
+                                  width: 150,
+                                  child: Text(
+                                    group.name,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedGroup = value!;
+                              });
+                            },
+                            validator: (value) =>
+                                value == null ? "Please select a group" : null,
                           ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedGroup = value!;
-                        });
-                      },
-                      validator: (value) =>
-                          value == null ? "Please select a group" : null,
-                    ),
-                  ),
-                );
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            final userModel = UserModel(
+                              id: 0,
+                              firstName: _firstNameController.text,
+                              email: _emailController.text,
+                              group: {"groupId": _selectedGroup},
+                            );
+
+                            context.read<UserBloc>().add(
+                                  AddUser(userModel),
+                                );
+                            _firstNameController.clear();
+                            _emailController.clear();
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text("Save User"),
+                      ),
+                    ],
+                  );
+                }
               } else if (state is GroupError) {
                 return Text(state.message);
               }
 
               return const SizedBox();
             },
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                final userModel = UserModel(
-                  id: 0,
-                  firstName: _firstNameController.text,
-                  email: _emailController.text,
-                  group: {"groupId": _selectedGroup},
-                );
-                context.read<UserBloc>().add(
-                      AddUser(userModel),
-                    );
-                _firstNameController.clear();
-                _emailController.clear();
-                Navigator.pop(context);
-              }
-            },
-            child: const Text("Save User"),
           ),
         ],
       ),
