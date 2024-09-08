@@ -18,7 +18,7 @@ class _UserPageState extends State<UserPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserBloc>().add(LoadUsers());
+      context.read<UserBloc>().add(GetUsers());
     });
   }
 
@@ -134,7 +134,7 @@ class _UserPageState extends State<UserPage> {
                                                     BorderRadius.circular(20),
                                               ),
                                               child: Text(
-                                                user.group['name'],
+                                                user.group['name'] ?? "Unknow",
                                                 style: themeData
                                                     .textTheme.bodySmall
                                                     ?.copyWith(
@@ -217,4 +217,3 @@ class _UserPageState extends State<UserPage> {
     );
   }
 }
-

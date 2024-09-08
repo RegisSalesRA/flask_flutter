@@ -10,7 +10,7 @@ class UserRepoImpl implements UserRepo {
   Future<List<UserEntity>> getUserFromDatasource() async {
     try {
       return await userRemoteDatasource.getRandomUserFromApi();
-    } catch (e) {
+    } catch (e) { 
       throw Exception();
     }
   }

@@ -62,19 +62,18 @@ def get_contacts():
 
 @app.route("/create_contact", methods=["POST"])
 def create_contact():
-    first_name = request.json.get("firstName")
-    last_name = request.json.get("lastName")
+    first_name = request.json.get("firstName") 
     email = request.json.get("email")
     group_id = request.json.get("groupId")
 
-    if not first_name or not last_name or not email or not group_id:
+    if not first_name  or not email or not group_id:
         return jsonify({"message": "First name, last name, email, and group ID are required"}), 400
 
     group = Group.query.get(group_id)
     if not group:
         return jsonify({"message": "Invalid group ID"}), 400
 
-    new_contact = Contact(first_name=first_name, last_name=last_name, email=email, group_id=group_id)
+    new_contact = Contact(first_name=first_name,  email=email, group_id=group_id)
 
     try:
         db.session.add(new_contact)
@@ -93,11 +92,9 @@ def update_contact(user_id):
         return jsonify({"message": "Contact not found"}), 404
 
     data = request.json
-    contact.first_name = data.get("firstName", contact.first_name)
-    contact.last_name = data.get("lastName", contact.last_name)
+    contact.first_name = data.get("firstName", contact.first_name) 
     contact.email = data.get("email", contact.email)
     contact.group_id = data.get("groupId", contact.group_id)
-
     db.session.commit()
     return jsonify({"message": "Contact updated"}), 200
 

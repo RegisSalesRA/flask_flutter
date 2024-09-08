@@ -91,7 +91,6 @@ class _CreateUserFormState extends State<CreateUserForm> {
                           child: DropdownButtonFormField<int>(
                             decoration:
                                 const InputDecoration(labelText: "Group"),
-                            value: _selectedGroup,
                             items: loadedGroups.map((group) {
                               return DropdownMenuItem<int>(
                                 value: group.id,
@@ -105,9 +104,11 @@ class _CreateUserFormState extends State<CreateUserForm> {
                               );
                             }).toList(),
                             onChanged: (value) {
+                              print(value);
                               setState(() {
                                 _selectedGroup = value!;
                               });
+                              print(value);
                             },
                             validator: (value) =>
                                 value == null ? "Please select a group" : null,
@@ -124,9 +125,8 @@ class _CreateUserFormState extends State<CreateUserForm> {
                               email: _emailController.text,
                               group: {"groupId": _selectedGroup},
                             );
-
                             context.read<UserBloc>().add(
-                                  AddUser(userModel),
+                                  PostUser(userModel),
                                 );
                             _firstNameController.clear();
                             _emailController.clear();

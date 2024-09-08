@@ -7,12 +7,12 @@ sealed class UserEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadUsers extends UserEvent {}
+class GetUsers extends UserEvent {}
 
-class AddUser extends UserEvent {
+class PostUser extends UserEvent {
   final UserModel user;
 
-  AddUser(this.user);
+  PostUser(this.user);
 
   @override
   List<Object?> get props => [user];

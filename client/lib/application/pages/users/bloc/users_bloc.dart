@@ -11,28 +11,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserUseCases userUseCases;
 
   UserBloc({required this.userUseCases}) : super(UserInitial()) {
-    on<LoadUsers>(_onLoadUsers);
-    on<AddUser>(_onAddUser);
+    on<GetUsers>(_onGetUsers);
+    on<PostUser>(_onPostUser);
     on<UpdateUser>(_onUpdateUser);
     on<DeleteUser>(_onDeleteUser);
   }
 
-  Future<void> _onLoadUsers(LoadUsers event, Emitter<UserState> emit) async {
+  Future<void> _onGetUsers(GetUsers event, Emitter<UserState> emit) async {
     emit(UserLoading());
     try {
       final users = await userUseCases.getusers();
+      print(users);
       emit(UserLoaded(users));
     } catch (e) {
       emit(handleError(e));
     }
   }
 
-  Future<void> _onAddUser(AddUser event, Emitter<UserState> emit) async {
+  Future<void> _onPostUser(PostUser event, Emitter<UserState> emit) async {
     if (state is UserLoaded) {
       try {
         await userUseCases.postusers(event.user);
-        final addUsers = List.of((state as UserLoaded).users)..add(event.user);
-        emit(UserLoaded(addUsers));
+        final users = await userUseCases.getusers();
+        emit(UserLoaded(users));
       } catch (e) {
         emit(handleError(e));
       }

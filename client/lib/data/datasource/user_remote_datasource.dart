@@ -39,8 +39,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "firstName": data.firstName,
-          "lastName": data.lastName,
+          "firstName": data.firstName, 
           "email": data.email,
           "groupId": data.group['groupId']
         }),
@@ -72,8 +71,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "firstName": data.firstName,
-          "lastName": data.lastName,
+          "firstName": data.firstName, 
           "email": data.email,
           "groupId": data.group['groupId']
         }),
