@@ -3,6 +3,7 @@ import 'package:client/domain/repositories/user_repository.dart';
 
 class UserUseCases {
   UserUseCases({required this.userRepo});
+
   final UserRepo userRepo;
 
   Future<List<UserEntity>> getusers() async {
@@ -19,5 +20,9 @@ class UserUseCases {
 
   Future<void> updateusers(data) async {
     return userRepo.updateUserDataSource(data);
+  }
+
+  Future<List<UserEntity>> getuserfilterbygroup(data) async {
+    return userRepo.getuserfilterbygroupdatasource(data);
   }
 }

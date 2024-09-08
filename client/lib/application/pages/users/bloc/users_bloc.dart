@@ -13,6 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc({required this.userUseCases}) : super(UserInitial()) {
     on<GetUsers>(_onGetUsers);
+    on<GetFilterUsers>(_onFilterUsersByGroup);
     on<PostUser>(_onPostUser);
     on<UpdateUser>(_onUpdateUser);
     on<DeleteUser>(_onDeleteUser);
@@ -22,7 +23,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(UserLoading());
     try {
       final users = await userUseCases.getusers();
-      print(users);
       emit(UserLoaded(users));
     } catch (e) {
       emit(handleError(e));
@@ -67,6 +67,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       } catch (e) {
         emit(handleError(e));
       }
+    }
+  }
+
+  Future<void> _onFilterUsersByGroup(
+      GetFilterUsers event, Emitter<UserState> emit) async {
+    emit(UserLoading());
+    try {
+      final users = await userUseCases.getuserfilterbygroup(event.name);
+      print(users);
+      emit(UserLoaded(users));
+    } catch (e) {
+      emit(handleError(e));
     }
   }
 }

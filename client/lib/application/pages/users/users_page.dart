@@ -1,3 +1,4 @@
+import 'package:client/application/pages/groups/bloc/group_bloc.dart';
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
 import 'package:client/application/pages/users/create_users_or_grup_page.dart';
 import 'package:client/application/pages/users/widgets/appbar_widget.dart';
@@ -5,6 +6,7 @@ import 'package:client/application/pages/users/widgets/user_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/empty_message_widget.dart';
+import 'widgets/show_filter_dialog_widget.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -19,6 +21,7 @@ class _UserPageState extends State<UserPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<UserBloc>().add(GetUsers());
+      context.read<GroupBloc>().add(LoadGroups());
     });
   }
 
@@ -29,7 +32,28 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBarWidget(
         themeData: themeData,
         title: "Flask Flutter Bloc",
-        widgetAction: SizedBox(),
+        widgetAction: Row(
+          children: [
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: themeData.colorScheme.secondary,
+              ),
+              onPressed: () {
+                context.read<UserBloc>().add(GetUsers());
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.filter_list,
+                color: themeData.colorScheme.secondary,
+              ),
+              onPressed: () {
+                showFilterDialogWidget(context);
+              },
+            )
+          ],
+        ),
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

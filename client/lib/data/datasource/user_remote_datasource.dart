@@ -8,6 +8,7 @@ abstract class UserRemoteDatasource {
   Future<void> postUserFromApi(dynamic userModel);
   Future<void> updateUserFromApi(dynamic userModel);
   Future<void> deleteUserFromApi(int id);
+  Future<List<UserModel>> getuserfilterbygroupdatasourceFromApi(String name);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
@@ -78,6 +79,22 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
       );
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getuserfilterbygroupdatasourceFromApi(data) async {
+    final response = await client.get(
+      Uri.parse('http://10.0.2.2:5000/filter_users_by_group?groupName=$data'),
+      headers: {
+        'content-type': 'application/json',
+      },
+    );
+    if (response.statusCode != 200) {
+      throw Exception();
+    } else {
+      final List<dynamic> responseBody = json.decode(response.body)['users'];
+      return responseBody.map((json) => UserModel.fromJson(json)).toList();
     }
   }
 }

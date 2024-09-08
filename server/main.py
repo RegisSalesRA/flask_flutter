@@ -111,6 +111,23 @@ def delete_user(user_id):
     return jsonify({"message": "User deleted!"}), 200
 
 
+@app.route("/filter_users_by_group", methods=["GET"])
+def filter_users_by_group():
+    group_name = request.args.get("groupName")  
+    
+    if not group_name:
+        return jsonify({"message": "Group name is required"}), 400
+ 
+    group = Group.query.filter_by(name=group_name).first()
+
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+ 
+    users = User.query.filter_by(group_id=group.id).all()
+
+    json_users = list(map(lambda x: x.to_json(), users))
+    return jsonify({"users": json_users}), 200
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

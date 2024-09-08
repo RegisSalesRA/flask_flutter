@@ -8,4 +8,6 @@ abstract class UserRepo {
   Future<void> deleteUserDataSource(id);
 
   Future<void> updateUserDataSource(data);
+
+  Future<List<UserEntity>> getuserfilterbygroupdatasource(data);
 }

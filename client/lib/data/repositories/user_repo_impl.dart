@@ -10,7 +10,7 @@ class UserRepoImpl implements UserRepo {
   Future<List<UserEntity>> getUserFromDatasource() async {
     try {
       return await userRemoteDatasource.getRandomUserFromApi();
-    } catch (e) { 
+    } catch (e) {
       throw Exception();
     }
   }
@@ -28,5 +28,15 @@ class UserRepoImpl implements UserRepo {
   @override
   Future<void> updateUserDataSource(id) async {
     await userRemoteDatasource.updateUserFromApi(id);
+  }
+
+  @override
+  Future<List<UserEntity>> getuserfilterbygroupdatasource(id) async {
+    try {
+      return await userRemoteDatasource
+          .getuserfilterbygroupdatasourceFromApi(id);
+    } catch (e) {
+      throw Exception();
+    }
   }
 }

@@ -9,6 +9,15 @@ sealed class UserEvent extends Equatable {
 
 class GetUsers extends UserEvent {}
 
+class GetFilterUsers extends UserEvent {
+  final String name;
+
+  GetFilterUsers(this.name);
+
+  @override
+  List<Object?> get props => [name];
+}
+
 class PostUser extends UserEvent {
   final UserModel user;
 
