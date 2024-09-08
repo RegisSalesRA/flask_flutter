@@ -10,7 +10,7 @@ class UserInitial extends UserState {}
 class UserLoading extends UserState {}
 
 class UserLoaded extends UserState {
-  final List<dynamic> users;
+  final List<UserEntity> users;
 
   UserLoaded(this.users);
 

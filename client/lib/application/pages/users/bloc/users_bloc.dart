@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:client/application/helpers/handler_erros_helper.dart';
+import 'package:client/domain/entities/user_entity.dart';
 import 'package:client/domain/usecases/user_usercase.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../data/models/user_model.dart';

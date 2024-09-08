@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from config import app, db
-from model import Contact, Group
+from model import Group, User
 
 @app.route("/groups", methods=["GET"])
 def get_groups():
@@ -53,15 +53,15 @@ def delete_group(group_id):
     return jsonify({"message": "Group deleted!"}), 200
 
 
-@app.route("/contacts", methods=["GET"])
-def get_contacts():
-    contacts = Contact.query.all()
-    json_contacts = list(map(lambda x: x.to_json(), contacts))
-    return jsonify({"contacts": json_contacts})
+@app.route("/users", methods=["GET"])
+def get_users():
+    users = User.query.all()
+    json_users = list(map(lambda x: x.to_json(), users))
+    return jsonify({"users": json_users})
 
 
-@app.route("/create_contact", methods=["POST"])
-def create_contact():
+@app.route("/create_user", methods=["POST"])
+def create_user():
     first_name = request.json.get("firstName") 
     email = request.json.get("email")
     group_id = request.json.get("groupId")
@@ -73,42 +73,42 @@ def create_contact():
     if not group:
         return jsonify({"message": "Invalid group ID"}), 400
 
-    new_contact = Contact(first_name=first_name,  email=email, group_id=group_id)
+    new_user = User(first_name=first_name,  email=email, group_id=group_id)
 
     try:
-        db.session.add(new_contact)
+        db.session.add(new_user)
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
 
-    return jsonify({"message": "Contact created!"}), 201
+    return jsonify({"message": "User created!"}), 201
 
 
-@app.route("/update_contact/<int:user_id>", methods=["PATCH"])
-def update_contact(user_id):
-    contact = Contact.query.get(user_id)
+@app.route("/update_user/<int:user_id>", methods=["PATCH"])
+def update_user(user_id):
+    user = User.query.get(user_id)
 
-    if not contact:
-        return jsonify({"message": "Contact not found"}), 404
+    if not user:
+        return jsonify({"message": "User not found"}), 404
 
     data = request.json
-    contact.first_name = data.get("firstName", contact.first_name) 
-    contact.email = data.get("email", contact.email)
-    contact.group_id = data.get("groupId", contact.group_id)
+    user.first_name = data.get("firstName", user.first_name) 
+    user.email = data.get("email", user.email)
+    user.group_id = data.get("groupId", user.group_id)
     db.session.commit()
-    return jsonify({"message": "Contact updated"}), 200
+    return jsonify({"message": "User updated"}), 200
 
 
-@app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
-def delete_contact(user_id):
-    contact = Contact.query.get(user_id)
+@app.route("/delete_user/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    user = User.query.get(user_id)
 
-    if not contact:
-        return jsonify({"message": "Contact not found"}), 404
+    if not user:
+        return jsonify({"message": "User not found"}), 404
 
-    db.session.delete(contact)
+    db.session.delete(user)
     db.session.commit()
-    return jsonify({"message": "Contact deleted!"}), 200
+    return jsonify({"message": "User deleted!"}), 200
 
 
 if __name__ == "__main__":

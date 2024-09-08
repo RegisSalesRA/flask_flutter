@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:client/application/helpers/handler_erros_helper.dart';
 import 'package:client/data/models/group_model.dart';
+import 'package:client/domain/entities/group_entity.dart';
 import 'package:client/domain/usecases/group_usercase.dart';
 import 'package:equatable/equatable.dart';
 part 'group_bloc_event.dart';

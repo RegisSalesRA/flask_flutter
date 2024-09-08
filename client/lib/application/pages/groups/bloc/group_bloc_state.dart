@@ -10,7 +10,7 @@ class GroupInitial extends GroupState {}
 class GroupLoading extends GroupState {}
 
 class GroupLoaded extends GroupState {
-  final List<dynamic> groups;
+  final List<GroupEntity> groups;
 
   GroupLoaded(this.groups);
 

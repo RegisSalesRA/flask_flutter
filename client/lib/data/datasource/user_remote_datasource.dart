@@ -17,7 +17,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   @override
   Future<List<UserModel>> getRandomUserFromApi() async {
     final response = await client.get(
-      Uri.parse('http://10.0.2.2:5000/contacts'),
+      Uri.parse('http://10.0.2.2:5000/users'),
       headers: {
         'content-type': 'application/json',
       },
@@ -25,7 +25,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
     if (response.statusCode != 200) {
       throw Exception();
     } else {
-      final List<dynamic> responseBody = json.decode(response.body)['contacts'];
+      final List<dynamic> responseBody = json.decode(response.body)['users'];
       return responseBody.map((json) => UserModel.fromJson(json)).toList();
     }
   }
@@ -34,12 +34,12 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<void> postUserFromApi(data) async {
     try {
       await client.post(
-        Uri.parse('http://10.0.2.2:5000/create_contact'),
+        Uri.parse('http://10.0.2.2:5000/create_user'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "firstName": data.firstName, 
+          "firstName": data.firstName,
           "email": data.email,
           "groupId": data.group['groupId']
         }),
@@ -53,7 +53,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<void> deleteUserFromApi(id) async {
     try {
       final response = await client
-          .delete(Uri.parse('http://10.0.2.2:5000/delete_contact/$id'));
+          .delete(Uri.parse('http://10.0.2.2:5000/delete_user/$id'));
       if (response.statusCode != 200) {
         throw Exception("Failed to delete post");
       }
@@ -66,12 +66,12 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   Future<void> updateUserFromApi(data) async {
     try {
       await client.patch(
-        Uri.parse('http://10.0.2.2:5000/update_contact/${data.id}'),
+        Uri.parse('http://10.0.2.2:5000/update_user/${data.id}'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          "firstName": data.firstName, 
+          "firstName": data.firstName,
           "email": data.email,
           "groupId": data.group['groupId']
         }),
