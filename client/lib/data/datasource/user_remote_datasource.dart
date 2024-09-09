@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'package:client/data/models/user_model.dart';
+import 'package:client/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDatasource {
-  Future<List<UserModel>> getUserFromApi();
+  Future<List<UserEntity>> getUserFromApi();
   Future<void> postUserFromApi(dynamic userModel);
   Future<void> updateUserFromApi(dynamic userModel);
   Future<void> deleteUserFromApi(int id);
-  Future<List<UserModel>> getuserfilterbygroupdatasourceFromApi(String name);
+  Future<List<UserEntity>> getuserfilterbygroupdatasourceFromApi(String name);
 }
 
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
