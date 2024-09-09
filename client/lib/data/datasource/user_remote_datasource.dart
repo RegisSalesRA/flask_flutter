@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 abstract class UserRemoteDatasource {
-  Future<List<UserModel>> getRandomUserFromApi();
+  Future<List<UserModel>> getUserFromApi();
   Future<void> postUserFromApi(dynamic userModel);
   Future<void> updateUserFromApi(dynamic userModel);
   Future<void> deleteUserFromApi(int id);
@@ -16,7 +16,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   UserRemoteDatasourceImpl({required this.client});
 
   @override
-  Future<List<UserModel>> getRandomUserFromApi() async {
+  Future<List<UserModel>> getUserFromApi() async {
     final response = await client.get(
       Uri.parse('http://10.0.2.2:5000/users'),
       headers: {
