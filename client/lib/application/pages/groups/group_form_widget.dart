@@ -29,6 +29,7 @@ class _CreateGroupFormState extends State<CreateGroupForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
+              cursorColor: Colors.white,
               controller: _groupNameController,
               decoration: const InputDecoration(labelText: "Group Name"),
               validator: (value) {

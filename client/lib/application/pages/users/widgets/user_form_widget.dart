@@ -42,6 +42,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
         children: [
           TextFormField(
             controller: _firstNameController,
+            cursorColor: Colors.white,
             decoration: const InputDecoration(labelText: "First Name"),
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -52,6 +53,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
           ),
           const SizedBox(height: 16),
           TextFormField(
+            cursorColor: Colors.white,
             controller: _emailController,
             decoration: const InputDecoration(labelText: "Email"),
             keyboardType: TextInputType.emailAddress,
