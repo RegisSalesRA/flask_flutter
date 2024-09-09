@@ -42,7 +42,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         body: jsonEncode({
           "firstName": data.firstName,
           "email": data.email,
-          "groupId": data.group['groupId']
+          "groupId": data.group['id']
         }),
       );
     } catch (e) {
@@ -74,7 +74,7 @@ class UserRemoteDatasourceImpl implements UserRemoteDatasource {
         body: jsonEncode({
           "firstName": data.firstName,
           "email": data.email,
-          "groupId": data.group['groupId']
+          "groupId": data.group['id']
         }),
       );
     } catch (e) {

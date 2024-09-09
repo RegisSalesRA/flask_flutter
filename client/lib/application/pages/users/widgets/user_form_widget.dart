@@ -125,7 +125,7 @@ class _CreateUserFormState extends State<CreateUserForm> {
                               id: 0,
                               firstName: _firstNameController.text,
                               email: _emailController.text,
-                              group: {"groupId": _selectedGroup},
+                              group: {"id": _selectedGroup},
                             );
                             context.read<UserBloc>().add(
                                   PostUser(userModel),
