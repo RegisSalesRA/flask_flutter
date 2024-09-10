@@ -66,13 +66,13 @@ class _UserPageState extends State<UserPage> {
                 child: Center(
                   child: BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
-                      if (state is UserInitial) {
+                      if (state is UserStateInitial) {
                         return const Text("User initial");
-                      } else if (state is UserLoading) {
+                      } else if (state is UserStateLoading) {
                         return CircularProgressIndicator(
                           color: Theme.of(context).colorScheme.secondary,
                         );
-                      } else if (state is UserLoaded) {
+                      } else if (state is UserStateLoaded) {
                         if (state.users.isEmpty) {
                           return EmptyListWidget(
                             themeData: themeData,
@@ -84,7 +84,7 @@ class _UserPageState extends State<UserPage> {
                             state: state,
                           );
                         }
-                      } else if (state is UserError) {
+                      } else if (state is UserStateError) {
                         return Text(state.message);
                       }
                       return const SizedBox();

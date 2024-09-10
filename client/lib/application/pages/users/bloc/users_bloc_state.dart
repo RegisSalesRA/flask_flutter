@@ -5,23 +5,23 @@ abstract class UserState extends Equatable {
   List<Object?> get props => [];
 }
 
-class UserInitial extends UserState {}
+class UserStateInitial extends UserState {}
 
-class UserLoading extends UserState {}
+class UserStateLoading extends UserState {}
 
-class UserLoaded extends UserState {
+class UserStateLoaded extends UserState {
   final List<UserEntity> users;
 
-  UserLoaded(this.users);
+  UserStateLoaded(this.users);
 
   @override
   List<Object?> get props => [users];
 }
 
-class UserError extends UserState {
+class UserStateError extends UserState {
   final String message;
 
-  UserError(this.message);
+  UserStateError({required this.message});
 
   @override
   List<Object?> get props => [message];

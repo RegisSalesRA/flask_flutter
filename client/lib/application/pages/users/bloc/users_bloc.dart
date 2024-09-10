@@ -11,7 +11,7 @@ part 'users_bloc_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserUseCases userUseCases;
 
-  UserBloc({required this.userUseCases}) : super(UserInitial()) {
+  UserBloc({required this.userUseCases}) : super(UserStateInitial()) {
     on<GetUsers>(_onGetUsers);
     on<GetFilterUsers>(_onFilterUsersByGroup);
     on<PostUser>(_onPostUser);
@@ -20,21 +20,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Future<void> _onGetUsers(GetUsers event, Emitter<UserState> emit) async {
-    emit(UserLoading());
+    emit(UserStateLoading());
     try {
       final users = await userUseCases.getusers();
-      emit(UserLoaded(users));
+      emit(UserStateLoaded(users));
     } catch (e) {
       emit(handleError(e));
     }
   }
 
   Future<void> _onPostUser(PostUser event, Emitter<UserState> emit) async {
-    if (state is UserLoaded) {
+    if (state is UserStateLoaded) {
       try {
         await userUseCases.postusers(event.user);
         final users = await userUseCases.getusers();
-        emit(UserLoaded(users));
+        emit(UserStateLoaded(users));
       } catch (e) {
         emit(handleError(e));
       }
@@ -42,13 +42,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Future<void> _onUpdateUser(UpdateUser event, Emitter<UserState> emit) async {
-    if (state is UserLoaded) {
+    if (state is UserStateLoaded) {
       try {
         await userUseCases.updateusers(event.user);
-        final updatedUsers = (state as UserLoaded).users.map((user) {
+        final updatedUsers = (state as UserStateLoaded).users.map((user) {
           return user.id == event.user.id ? event.user : user;
         }).toList();
-        emit(UserLoaded(updatedUsers));
+        emit(UserStateLoaded(updatedUsers));
       } catch (e) {
         emit(handleError(e));
       }
@@ -56,14 +56,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Future<void> _onDeleteUser(DeleteUser event, Emitter<UserState> emit) async {
-    if (state is UserLoaded) {
+    if (state is UserStateLoaded) {
       try {
         await userUseCases.deleteusers(event.id);
-        final updatedUsers = (state as UserLoaded)
+        final updatedUsers = (state as UserStateLoaded)
             .users
             .where((user) => user.id != event.id)
             .toList();
-        emit(UserLoaded(updatedUsers));
+        emit(UserStateLoaded(updatedUsers));
       } catch (e) {
         emit(handleError(e));
       }
@@ -72,11 +72,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<void> _onFilterUsersByGroup(
       GetFilterUsers event, Emitter<UserState> emit) async {
-    emit(UserLoading());
+    emit(UserStateLoading());
     try {
       final users = await userUseCases.getuserfilterbygroup(event.name);
       print(users);
-      emit(UserLoaded(users));
+      emit(UserStateLoaded(users));
     } catch (e) {
       emit(handleError(e));
     }

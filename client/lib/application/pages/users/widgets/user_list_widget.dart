@@ -8,7 +8,7 @@ class UsersListWidget extends StatelessWidget {
       {super.key, required this.themeData, required this.state});
 
   final ThemeData themeData;
-  final UserLoaded state;
+  final UserStateLoaded state;
 
   @override
   Widget build(BuildContext context) {

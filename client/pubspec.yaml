@@ -18,15 +18,16 @@ dependencies:
   cupertino_icons: ^1.0.6
   equatable: ^2.0.5
   http: ^1.2.2
-  dartz: ^0.10.1
   get_it: ^7.2.0
 
 dev_dependencies:
 
   flutter_test:
     sdk: flutter
+
   test: ^1.21.4
   mocktail: ^1.0.4
+  bloc_test: ^9.1.0
   flutter_lints: ^3.0.0
 
 flutter:

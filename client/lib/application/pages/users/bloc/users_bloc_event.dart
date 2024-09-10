@@ -12,7 +12,7 @@ class GetUsers extends UserEvent {}
 class GetFilterUsers extends UserEvent {
   final String name;
 
-  GetFilterUsers(this.name);
+  const GetFilterUsers(this.name);
 
   @override
   List<Object?> get props => [name];
@@ -21,7 +21,7 @@ class GetFilterUsers extends UserEvent {
 class PostUser extends UserEvent {
   final UserModel user;
 
-  PostUser(this.user);
+  const PostUser(this.user);
 
   @override
   List<Object?> get props => [user];
@@ -30,7 +30,7 @@ class PostUser extends UserEvent {
 class UpdateUser extends UserEvent {
   final UserModel user;
 
-  UpdateUser(this.user);
+  const UpdateUser(this.user);
 
   @override
   List<Object?> get props => [user];
@@ -39,7 +39,7 @@ class UpdateUser extends UserEvent {
 class DeleteUser extends UserEvent {
   final int id;
 
-  DeleteUser(this.id);
+  const DeleteUser(this.id);
 
   @override
   List<Object?> get props => [id];
