@@ -1,6 +1,6 @@
 import 'package:client/data/datasource/user_remote_datasource.dart';
 import 'package:client/data/models/user_model.dart';
-import 'package:client/data/repositories/user_repo_impl.dart'; 
+import 'package:client/data/repositories/user_repo_impl.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
