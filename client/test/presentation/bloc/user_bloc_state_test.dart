@@ -6,11 +6,6 @@ import 'package:test/test.dart';
 
 class MockUserUseCases extends Mock implements UserUseCases {}
 
-class NetworkException implements Exception {
-  final String message;
-  NetworkException(this.message);
-}
-
 void main() {
   group('UserBloc', () {
     late MockUserUseCases userUseCasesMock;

@@ -75,7 +75,7 @@ void main() {
     );
 
     blocTest<UserBloc, UserState>(
-      'emits [UserStateLoading, UserStateLoaded] when PostUser event is added',
+      'emits [UserStateLoading, PostUser] when PostUser event is added',
       setUp: () => when(() => mockUserUseCases.postusers(any())).thenAnswer(
         (_) async => Future.value(),
       ),

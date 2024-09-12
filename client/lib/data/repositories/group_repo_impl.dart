@@ -10,7 +10,7 @@ class GroupRepoImpl implements GroupRepo {
   @override
   Future<List<GroupEntity>> getGroupFromDatasource() async {
     try {
-      return await groupRemoteDatasource.getRandomGroupFromApi();
+      return await groupRemoteDatasource.getGroupFromApi();
     } catch (e) {
       throw Exception();
     }

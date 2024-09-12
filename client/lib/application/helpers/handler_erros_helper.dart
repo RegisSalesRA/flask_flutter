@@ -15,11 +15,11 @@ UserStateError handleError(dynamic e) {
 
 GroupError handleErrorGroup(dynamic e) {
   if (e is NetworkException) {
-    return GroupError("Network Error: ${e.message}");
+    return GroupError(message: "Network Error: ${e.message}");
   } else if (e is TimeoutException) {
-    return GroupError("Request timed out. Please try again.");
+    return GroupError(message: "Request timed out. Please try again.");
   } else {
-    return GroupError("Unexpected error occurred: ${e.toString()}");
+    return GroupError(message: "Unexpected error occurred: ${e.toString()}");
   }
 }
 

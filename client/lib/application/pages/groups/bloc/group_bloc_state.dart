@@ -21,7 +21,7 @@ class GroupLoaded extends GroupState {
 class GroupError extends GroupState {
   final String message;
 
-  GroupError(this.message);
+  GroupError({required this.message});
 
   @override
   List<Object?> get props => [message];

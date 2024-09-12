@@ -10,9 +10,9 @@ sealed class GroupEvent extends Equatable {
 class LoadGroups extends GroupEvent {}
 
 class AddGroup extends GroupEvent {
-  final GroupModel group;
+  final GroupEntity group;
 
-  AddGroup(this.group);
+  const AddGroup(this.group);
 
   @override
   List<Object?> get props => [group];
@@ -21,7 +21,7 @@ class AddGroup extends GroupEvent {
 class UpdateGroup extends GroupEvent {
   final GroupModel group;
 
-  UpdateGroup(this.group);
+  const UpdateGroup(this.group);
 
   @override
   List<Object?> get props => [group];
@@ -30,7 +30,7 @@ class UpdateGroup extends GroupEvent {
 class DeleteGroup extends GroupEvent {
   final int id;
 
-  DeleteGroup(this.id);
+  const DeleteGroup(this.id);
 
   @override
   List<Object?> get props => [id];
