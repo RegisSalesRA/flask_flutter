@@ -1,28 +1,21 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:client/application/pages/users/widgets/user_form_widget.dart';
-import 'package:client/domain/entities/group_entity.dart';
+import 'package:client/application/pages/groups/bloc/group_bloc.dart';
+import 'package:client/application/pages/groups/group_form_widget.dart';
+import 'package:client/data/models/group_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:client/application/pages/groups/bloc/group_bloc.dart';
-import 'package:client/application/pages/users/bloc/users_bloc.dart';
-
-import 'package:client/data/models/user_model.dart';
 
 class MockGroupBloc extends MockBloc<GroupEvent, GroupState>
     implements GroupBloc {}
 
-class MockUserBloc extends MockBloc<UserEvent, UserState> implements UserBloc {}
-
 void main() {
-  group('CreateUserForm', () {
+  group('CreateGroupForm', () {
     late MockGroupBloc mockGroupBloc;
-    late MockUserBloc mockUserBloc;
 
     setUp(() {
       mockGroupBloc = MockGroupBloc();
-      mockUserBloc = MockUserBloc();
     });
 
     Widget createWidgetUnderTest() {
@@ -30,60 +23,48 @@ void main() {
         home: Scaffold(
           body: BlocProvider<GroupBloc>.value(
             value: mockGroupBloc,
-            child: BlocProvider<UserBloc>.value(
-              value: mockUserBloc,
-              child: const CreateUserForm(),
-            ),
+            child: const CreateGroupForm(),
           ),
         ),
       );
     }
 
-    testWidgets('renders form fields and buttons', (WidgetTester tester) async {
-      when(() => mockGroupBloc.state).thenReturn(GroupLoaded(const [
-        GroupEntity(id: 1, name: 'Group 1'),
-        GroupEntity(id: 2, name: 'Group 2'),
-      ]));
+    testWidgets('renders form fields and button', (WidgetTester tester) async {
+      when(() => mockGroupBloc.state).thenReturn(GroupInitial());
 
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(find.byType(TextFormField), findsOneWidget);
       expect(find.byType(ElevatedButton), findsOneWidget);
-
-      expect(find.text('Group'), findsOneWidget);
     });
 
-    testWidgets('fills and submits the form', (WidgetTester tester) async {
-      when(() => mockGroupBloc.state).thenReturn(GroupLoaded(const [
-        GroupEntity(id: 1, name: 'Group 1'),
-        GroupEntity(id: 2, name: 'Group 2'),
-      ]));
+    testWidgets('shows validation error when form is empty',
+        (WidgetTester tester) async {
+      when(() => mockGroupBloc.state).thenReturn(GroupInitial());
 
       await tester.pumpWidget(createWidgetUnderTest());
-
-      await tester.enterText(find.byType(TextFormField).at(0), 'John Doe');
-      await tester.enterText(
-          find.byType(TextFormField).at(1), 'john.doe@example.com');
-
-      await tester.tap(find.byType(DropdownButtonFormField<int>));
-      await tester.pump();
-      await tester.tap(find.text('Group 1').last);
-      await tester.pump();
 
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
-      verify(() => mockUserBloc.add(PostUser(
-            UserModel(
-              id: 0,
-              firstName: 'John Doe',
-              email: 'john.doe@example.com',
-              group: const {"id": 1},
-            ),
-          ))).called(1);
+      expect(find.text('Please enter the group name'), findsOneWidget);
+    });
 
-      expect(find.text('John Doe'), findsNothing);
-      expect(find.text('john.doe@example.com'), findsNothing);
+    testWidgets('submits the form when valid', (WidgetTester tester) async {
+      when(() => mockGroupBloc.state).thenReturn(GroupInitial());
+
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.enterText(find.byType(TextFormField), 'group 1');
+
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+
+      verify(() =>
+              mockGroupBloc.add(AddGroup(GroupModel(id: 0, name: 'group 1'))))
+          .called(1);
+
+      expect(find.text('group 1'), findsNothing);
     });
   });
 }

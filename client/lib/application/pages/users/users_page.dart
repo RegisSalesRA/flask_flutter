@@ -28,89 +28,94 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    return Scaffold(
-      appBar: AppBarWidget(
-        themeData: themeData,
-        title: "Flask Flutter Bloc",
-        widgetAction: Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: themeData.colorScheme.secondary,
-              ),
-              onPressed: () {
-                context.read<UserBloc>().add(GetUsers());
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.filter_list,
-                color: themeData.colorScheme.secondary,
-              ),
-              onPressed: () {
-                showFilterDialogWidget(context);
-              },
-            )
-          ],
-        ),
-      ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            children: [
-              Expanded(
-                child: Center(
-                  child: BlocBuilder<UserBloc, UserState>(
-                    builder: (context, state) {
-                      if (state is UserStateInitial) {
-                        return const Text("User initial");
-                      } else if (state is UserStateLoading) {
-                        return CircularProgressIndicator(
-                          color: Theme.of(context).colorScheme.secondary,
-                        );
-                      } else if (state is UserStateLoaded) {
-                        if (state.users.isEmpty) {
-                          return EmptyListWidget(
-                            themeData: themeData,
-                            message: "No users found!",
-                          );
-                        } else {
-                          return UsersListWidget(
-                            themeData: themeData,
-                            state: state,
-                          );
-                        }
-                      } else if (state is UserStateError) {
-                        return Text(state.message);
-                      }
-                      return const SizedBox();
-                    },
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          appBar: AppBarWidget(
+            themeData: themeData,
+            title: "Flask Flutter Bloc",
+            widgetAction: Row(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.refresh,
+                    color: themeData.colorScheme.secondary,
                   ),
+                  onPressed: () {
+                    context.read<UserBloc>().add(GetUsers());
+                  },
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const CreateUserOrGroupPage(),
+                IconButton(
+                  icon: Icon(
+                    Icons.filter_list,
+                    color: themeData.colorScheme.secondary,
+                  ),
+                  onPressed: () {
+                    showFilterDialogWidget(context);
+                  },
+                )
+              ],
             ),
-          );
-        },
-        backgroundColor: themeData.colorScheme.secondary,
-        child: Icon(
-          Icons.add,
-          color: themeData.colorScheme.primary,
-        ),
-      ),
+          ),
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          if (state is UserStateInitial) {
+                            return const Text("User initial");
+                          } else if (state is UserStateLoading) {
+                            return CircularProgressIndicator(
+                              color: Theme.of(context).colorScheme.secondary,
+                            );
+                          } else if (state is UserStateLoaded) {
+                            if (state.users.isEmpty) {
+                              return EmptyListWidget(
+                                themeData: themeData,
+                                message: "No users found!",
+                              );
+                            } else {
+                              return UsersListWidget(
+                                themeData: themeData,
+                                state: state,
+                              );
+                            }
+                          } else if (state is UserStateError) {
+                            return Text(state.message);
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CreateUserOrGroupPage(),
+                ),
+              );
+            },
+            backgroundColor: themeData.colorScheme.secondary,
+            child: Icon(
+              Icons.add,
+              color: themeData.colorScheme.primary,
+            ),
+          ),
+        );
+      },
     );
   }
 }
