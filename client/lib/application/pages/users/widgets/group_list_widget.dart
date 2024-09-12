@@ -62,7 +62,7 @@ class GroupsListWidget extends StatelessWidget {
                           group.name,
                           style: themeData.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: themeData.colorScheme.onBackground,
+                            color: themeData.colorScheme.onSurface,
                           ),
                         ),
                       ),

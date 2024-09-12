@@ -82,13 +82,13 @@ class AppTheme {
   // RadioButton Styles
   // *****************
   static final RadioThemeData _lightRadioTheme = RadioThemeData(
-    fillColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade800),
-    overlayColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade200),
+    fillColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade800),
+    overlayColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade200),
   );
 
   static final RadioThemeData _darkRadioTheme = RadioThemeData(
-    fillColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade300),
-    overlayColor: MaterialStateProperty.all<Color>(Colors.blueGrey.shade600),
+    fillColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade300),
+    overlayColor: WidgetStateProperty.all<Color>(Colors.blueGrey.shade600),
   );
 
   // *****************

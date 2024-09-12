@@ -25,7 +25,7 @@ class EmptyListWidget extends StatelessWidget {
           Text(
             message,
             style: themeData.textTheme.headlineSmall?.copyWith(
-              color: themeData.colorScheme.onBackground.withOpacity(0.8),
+              color: themeData.colorScheme.onSurface.withOpacity(0.8),
               fontWeight: FontWeight.bold,
             ),
           ),

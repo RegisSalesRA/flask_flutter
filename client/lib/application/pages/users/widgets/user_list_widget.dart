@@ -1,5 +1,5 @@
 import 'package:client/application/pages/users/bloc/users_bloc.dart';
-import 'package:client/application/pages/users/widgets/form_update_widget.dart';
+import 'package:client/application/pages/users/widgets/user_modal_update_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,7 +54,7 @@ class UsersListWidget extends StatelessWidget {
                         user.firstName,
                         style: themeData.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: themeData.colorScheme.onBackground,
+                          color: themeData.colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -98,8 +98,11 @@ class UsersListWidget extends StatelessWidget {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) =>
-                              UserFormModal(id: user.id),
+                          builder: (BuildContext context) => UserFormModal(
+                              id: user.id,
+                              group: user.group,
+                              email: user.email,
+                              firstName: user.firstName),
                         );
                       },
                     ),
