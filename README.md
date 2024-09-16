@@ -17,7 +17,7 @@
 <h2>About App</h2>
 
 <p>
-I would like to pratice more flutter with flask and i created a flask and flutter to study
+I would like to have more ideas about flutter and flask
 </p>
 
 <h2>Screenshots</h2>
@@ -36,7 +36,7 @@ I would like to pratice more flutter with flask and i created a flask and flutte
 <img src="https://img.shields.io/badge/Flutter Version-3.24.0-blue"> <img src="https://img.shields.io/badge/Dart Version-3.5.0-blueviolet"> <img src="https://img.shields.io/badge/JDK version-11.0.16-yellowgreen">
 
 <p>
-Was developer using flask as backend it will be good for learn a little about flask and of course flutter with block on frontend
+This project was developer using flask as backend it will be good for learn a little about flask and of course flutter with bloc on frontend
 </p>
 
 
@@ -56,6 +56,14 @@ $ flutter pub get / flutter packages get
 
 - Execute:
 $ flutter run
+
+
+
+- Start the server
+$ cd server
+
+- Execute:
+$ python main.py
 
 
 ```
