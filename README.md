@@ -75,7 +75,6 @@ $ python main.py
 <h2>Packages</h2>
 <p>
 
-- provider: ^6.0.3
 - flutter_bloc: ^8.1.1
 - cupertino_icons: ^1.0.6
 - equatable: ^2.0.5
